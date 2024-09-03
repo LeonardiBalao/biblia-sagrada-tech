@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { ThemeProvider } from "@/components/providers/theme-provider";
-import { Poppins as FontSans } from "next/font/google";
+import { Merriweather as FontSans } from "next/font/google";
 import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
 
 const fontSans = FontSans({
-  weight: ["100", "200", "300", "400", "500"],
+  weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
 });
 

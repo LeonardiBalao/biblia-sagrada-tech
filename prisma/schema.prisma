@@ -24,11 +24,21 @@ model User {
   role                 ROLE            @default(USER)
   accounts             Account[]
   sessions             Session[]
-  // Optional for WebAuthn support
   Authenticator        Authenticator[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  ReadingStatistics ReadingStatistics[]
+  ReadingSession    ReadingSession[]
+  ReadingPlan       ReadingPlan[]
+  Points            Points[]
+  Level             Level[]
+  Achievement       Achievement[]
+  Badge             Badge[]
+  UserChallenge     UserChallenge[]
+  Leaderboard       Leaderboard[]
+  ReadingProgress   ReadingProgress[]
+  Note              Note[]
 }
 
 model Account {
@@ -84,4 +94,172 @@ model Authenticator {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@id([userId, credentialID])
+}
+
+enum TESTAMENT {
+  VELHO
+  NOVO
+}
+
+model Chapter {
+  id           Int       @id @default(autoincrement())
+  testament    TESTAMENT
+  name         String
+  abbreviation String
+  Verses       Verse[]
+}
+
+model Verse {
+  id              Int               @id @default(autoincrement())
+  chapterId       Int
+  number          Int
+  content         String
+  chapter         Chapter           @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  ReadingProgress ReadingProgress[]
+  Note            Note[]
+}
+
+model ReadingProgress {
+  id      String  @id @default(cuid())
+  userId  String
+  verseId Int
+  read    Boolean
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verse   Verse   @relation(fields: [verseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, verseId])
+}
+
+model ReadingStatistics {
+  id           String @id @default(cuid())
+  userId       String
+  totalTime    Int // Total reading time in minutes
+  chaptersRead Int // Number of chapters read
+  versesRead   Int // Number of verses read
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ReadingSession {
+  id           String   @id @default(cuid())
+  userId       String
+  startTime    DateTime
+  endTime      DateTime
+  chaptersRead Int // Number of chapters read in the session
+  versesRead   Int // Number of verses read in the session
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Note {
+  id      String @id @default(cuid())
+  userId  String
+  verseId Int
+  content String
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verse   Verse  @relation(fields: [verseId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ReadingPlan {
+  id          String   @id @default(cuid())
+  userId      String
+  name        String
+  description String?
+  startDate   DateTime
+  endDate     DateTime
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Points {
+  id     String @id @default(cuid())
+  userId String
+  points Int    @default(0)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Level {
+  id     String @id @default(cuid())
+  userId String
+  level  Int    @default(1)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Achievement {
+  id          String @id @default(cuid())
+  userId      String
+  name        String
+  description String
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Badge {
+  id          String @id @default(cuid())
+  userId      String
+  name        String
+  description String
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  Challenge Challenge[]
+}
+
+model Challenge {
+  id          String  @id @default(cuid())
+  name        String
+  description String
+  points      Int
+  badgeId     String?
+  badge       Badge?  @relation(fields: [badgeId], references: [id])
+
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  UserChallenge UserChallenge[]
+}
+
+model UserChallenge {
+  id          String    @id @default(cuid())
+  userId      String
+  challengeId String
+  completed   Boolean   @default(false)
+  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  challenge   Challenge @relation(fields: [challengeId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, challengeId])
+}
+
+model Leaderboard {
+  id     String @id @default(cuid())
+  userId String
+  rank   Int
+  points Int
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
