@@ -1,3 +1,6 @@
+"use client";
+
+import ThemeButtons from "@/components/structure/theme-buttons";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -19,20 +22,28 @@ import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   PanelLeft,
-  Package2,
   Home,
-  ShoppingCart,
   Package,
   Users2,
   LineChart,
   Search,
+  Church,
+  ArrowRight,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function PainelNavbar() {
+  const [path, setPath] = useState("");
+  const [pathLength, setPathLength] = useState(0);
+  useEffect(() => {
+    setPath(window.location.pathname);
+    setPathLength(path.split("/").slice(1).length);
+    console.log(pathLength, path);
+  }, [path, pathLength]);
   return (
-    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 border-b bg-background px-4 sm:static sm:h-auto sm:border-0 sm:bg-transparent sm:px-6">
+    <header className="sticky top-0 z-30 flex h-14 items-center gap-4 bg-background px-4 sm:static sm:h-auto sm:bg-transparent sm:px-6 border-b-2 py-4 md:pb-4 md:pt-0">
       <Sheet>
         <SheetTrigger asChild>
           <Button size="icon" variant="outline" className="sm:hidden">
@@ -46,67 +57,69 @@ export default function PainelNavbar() {
               href="#"
               className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
             >
-              <Package2 className="h-5 w-5 transition-all group-hover:scale-110" />
-              <span className="sr-only">Acme Inc</span>
+              <Church className="h-5 w-5 transition-all group-hover:scale-110" />
+              <span className="sr-only">bibliasagrada.tech</span>
             </Link>
             <Link
               href="#"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Home className="h-5 w-5" />
-              Dashboard
-            </Link>
-            <Link
-              href="#"
-              className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
-            >
-              <ShoppingCart className="h-5 w-5" />
-              Orders
+              Painel
             </Link>
             <Link
               href="#"
               className="flex items-center gap-4 px-2.5 text-foreground"
             >
               <Package className="h-5 w-5" />
-              Products
+              Estudo
             </Link>
             <Link
               href="#"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Users2 className="h-5 w-5" />
-              Customers
+              Classificação
             </Link>
             <Link
               href="#"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <LineChart className="h-5 w-5" />
-              Settings
+              Configurações
             </Link>
           </nav>
         </SheetContent>
       </Sheet>
       <Breadcrumb className="hidden md:flex">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="#">Dashboard</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbLink asChild>
-              <Link href="#">Products</Link>
-            </BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Edit Product</BreadcrumbPage>
-          </BreadcrumbItem>
+        <BreadcrumbList className="flex items-center">
+          {path
+            .split("/")
+            .slice(1)
+            .map((p, i) => (
+              <BreadcrumbItem key={i}>
+                <BreadcrumbLink asChild>
+                  <Link
+                    className="flex items-center gap-4"
+                    href={`${
+                      i == 0
+                        ? p
+                        : path
+                            .split("/")
+                            .slice(0, i + 1)
+                            .join("/")
+                    }`}
+                  >
+                    {p.charAt(0).toUpperCase() + p.slice(1)}
+                    {i !== pathLength - 1 ? <ArrowRight size={13} /> : ""}
+                  </Link>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+            ))}
         </BreadcrumbList>
       </Breadcrumb>
-      <div className="relative ml-auto flex-1 md:grow-0">
+      <ThemeButtons className="" />
+      <div className="relative ml-auto flex-1 md:grow-0 flex gap-4">
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="search"

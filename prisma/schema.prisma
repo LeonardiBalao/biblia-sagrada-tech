@@ -122,7 +122,7 @@ model Verse {
 model ReadingProgress {
   id      String  @id @default(cuid())
   userId  String
-  verseId Int
+  verseId Int     @default(1)
   read    Boolean
   user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   verse   Verse   @relation(fields: [verseId], references: [id], onDelete: Cascade)

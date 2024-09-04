@@ -19,13 +19,16 @@ export default function ThemeButtons({ className }: { className: string }) {
     <>
       <div
         className={cn(
-          "flex gap-2 items-center group justify-center text-sm px-2 py-1 rounded-full border scale-75 cursor-pointer",
+          "flex gap-2 items-center group justify-center text-sm px-2 py-1 rounded-full border-2 border-primary scale-75",
           className
         )}
       >
         <Sun
-          size={21}
-          className={`${checked ? "block" : "hidden"} text-yellow-500`}
+          size={24}
+          className={cn(
+            "text-yellow-500 cursor-pointer",
+            checked ? "block" : "hidden"
+          )}
           onClick={(e) => {
             setChecked((prev) => !prev);
             e ? setTheme("light") : setTheme("dark");
@@ -34,8 +37,11 @@ export default function ThemeButtons({ className }: { className: string }) {
 
         <Moon
           fill="blue"
-          size={21}
-          className={`${!checked ? "block" : "hidden"} text-blue-500`}
+          size={24}
+          className={cn(
+            "text-blue-500 cursor-pointer",
+            !checked ? "block" : "hidden"
+          )}
           onClick={(e) => {
             setChecked((prev) => !prev);
             e ? setTheme("dark") : setTheme("light");
