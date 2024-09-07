@@ -1,4 +1,4 @@
-import prisma from "../server/db";
+import prisma from "../db";
 import { newB } from "./pdf/novo-testamento-capitulos";
 import { TESTAMENT } from "@prisma/client";
 

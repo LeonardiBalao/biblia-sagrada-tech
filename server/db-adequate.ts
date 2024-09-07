@@ -1,5 +1,5 @@
-import { generateSlug } from "../utils/functions";
 import prisma from "./db";
+import { generateSlug } from "./utils/functions";
 
 const createChapterSlugs = async () => {
   const chapters = await prisma.chapter.findMany();

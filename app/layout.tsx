@@ -4,7 +4,8 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { Merriweather as FontSans } from "next/font/google";
 import { Toaster } from "sonner";
 import { cn } from "@/lib/utils";
-
+import { SpeedInsights } from "@vercel/speed-insights/next";
+import { Analytics } from "@vercel/analytics/react";
 const fontSans = FontSans({
   weight: ["300", "400", "700", "900"],
   subsets: ["latin"],
@@ -35,6 +36,8 @@ export default function RootLayout({
             {children}
             <Toaster richColors />
           </ThemeProvider>
+          <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </html>
