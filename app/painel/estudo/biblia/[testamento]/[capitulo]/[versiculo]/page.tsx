@@ -8,7 +8,7 @@ import { setUserProgress } from "@/server/actions/set-user-progress";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
 import Bible from "./bible";
-import { treatTestamentSlug } from "@/utils/functions";
+import { treatTestamentSlug } from "../../../../../../../utils/functions";
 
 interface PropertiesProps {
   params: {
