@@ -2,23 +2,22 @@
 
 import prisma from "../db";
 
-export const setUserProgress = async (
-  userId: string,
-  userProgress: UserProgress
-) => {
+export const setUserProgress = async (progress: UserProgress) => {
   try {
-    const versesLength = await prisma.verse.count();
-    if (userProgress.verseId <= versesLength) {
-      return { fail: "Next chapter" };
+    const versesLength = await prisma.verse.count({
+      where: { chapterId: progress.chapterId },
+    });
+    if (progress.verseId + 4 >= versesLength) {
+      return { error: "Next chapter" };
     }
     await prisma.readingProgress.update({
-      where: { userId },
+      where: { userId: progress.userId },
       data: {
-        verseId: userProgress.verseId + 1,
+        verseId: progress.verseId + 4,
       },
     });
-    return { created: `Versículo ${userProgress.verseId} lido.` };
+    return { success: `Versículo ${progress.verseId} lido.` };
   } catch (err: any) {
-    return { fail: err.message };
+    return { error: err.message };
   }
 };

@@ -46,8 +46,8 @@ export const getUserProgress = async (userId: string) => {
       verses: verses,
     } as UserProgress;
 
-    return { success: userProgress };
-  } catch (err) {
-    return { error: err };
+    return { progress: userProgress };
+  } catch (err: any) {
+    return { error: err.message };
   }
 };

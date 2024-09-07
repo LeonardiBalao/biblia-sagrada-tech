@@ -14,18 +14,27 @@ import { Separator } from "@/components/ui/separator";
 import Link from "next/link";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import Note from "../note";
+import Note from "./note";
+import { setUserProgress } from "@/server/actions/set-user-progress";
+import { useRouter } from "next/navigation";
 
 interface BibleProps {
   progress: UserProgress;
 }
 
 export default function Bible({ progress }: BibleProps) {
-  useEffect(() => {
-    toast.message(
-      "Clique em cima do versículo ou do capítulo para adicionar notas."
+  const router = useRouter();
+  const handleSubmit = async () => {
+    const { success, error } = await setUserProgress(progress);
+    if (error) return toast.error(error);
+    toast.success(success);
+    router.push(
+      `/painel/estudo/biblia/${progress.testament.toLocaleLowerCase()}-testamento/${
+        progress.slug
+      }/${progress.verseId + 4}`
     );
-  }, []);
+  };
+
   return (
     <Card className="max-w-sm">
       <CardHeader>
@@ -48,10 +57,7 @@ export default function Bible({ progress }: BibleProps) {
             >
               {progress.verses[0].id}
             </Badge>
-            <Note
-              verse={progress.verses[0].content}
-              chapter={progress.chapterName}
-            />
+            <Note verse={progress.verses[0]} progress={progress} />
           </div>
           <p className="first-letter:text-4xl first-letter:leading-tight first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:font-extrabold">
             {progress.verses[0].content}
@@ -66,7 +72,7 @@ export default function Bible({ progress }: BibleProps) {
               >
                 {v.id}
               </Badge>
-              <Note verse={v.content} chapter={progress.chapterName} />
+              <Note verse={v} progress={progress} />
             </div>
             <p className="first-letter:text-4xl first-letter:leading-tight first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:font-extrabold">
               {v.content}
@@ -75,9 +81,9 @@ export default function Bible({ progress }: BibleProps) {
         ))}
       </CardContent>
       <CardFooter>
-        <Link href="#" className="w-full">
-          <Button className="w-full">Próxima página</Button>
-        </Link>
+        <Button className="w-full" onClick={handleSubmit}>
+          Próxima página
+        </Button>
       </CardFooter>
     </Card>
   );

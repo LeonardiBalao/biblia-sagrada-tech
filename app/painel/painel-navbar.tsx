@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ExtendUser } from "@/types/next-auth";
 import {
   PanelLeft,
   Home,
@@ -34,7 +35,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-export default function PainelNavbar() {
+interface PainelNavbarProps {
+  user: ExtendUser;
+}
+
+export default function PainelNavbar({ user }: PainelNavbarProps) {
   const [path, setPath] = useState("");
   const [pathLength, setPathLength] = useState(0);
   useEffect(() => {
@@ -54,35 +59,35 @@ export default function PainelNavbar() {
         <SheetContent side="left" className="sm:max-w-xs">
           <nav className="grid gap-6 text-lg font-medium">
             <Link
-              href="#"
+              href="/"
               className="group flex h-10 w-10 shrink-0 items-center justify-center gap-2 rounded-full bg-primary text-lg font-semibold text-primary-foreground md:text-base"
             >
               <Church className="h-5 w-5 transition-all group-hover:scale-110" />
               <span className="sr-only">bibliasagrada.tech</span>
             </Link>
             <Link
-              href="#"
+              href="/painel"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Home className="h-5 w-5" />
               Painel
             </Link>
             <Link
-              href="#"
+              href="/painel/estudo"
               className="flex items-center gap-4 px-2.5 text-foreground"
             >
               <Package className="h-5 w-5" />
               Estudo
             </Link>
             <Link
-              href="#"
+              href="/painel/classificacao"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Users2 className="h-5 w-5" />
               Classificação
             </Link>
             <Link
-              href="#"
+              href="/painel/configuracoes"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <LineChart className="h-5 w-5" />
@@ -123,7 +128,7 @@ export default function PainelNavbar() {
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Search..."
+          placeholder="Pesquisar..."
           className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
         />
       </div>
@@ -135,7 +140,7 @@ export default function PainelNavbar() {
             className="overflow-hidden rounded-full"
           >
             <Image
-              src="/placeholder-user.jpg"
+              src={user.image}
               width={36}
               height={36}
               alt="Avatar"
@@ -144,11 +149,9 @@ export default function PainelNavbar() {
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>Meu perfil</DropdownMenuItem>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Support</DropdownMenuItem>
-          <DropdownMenuSeparator />
+          <DropdownMenuItem>Suporte</DropdownMenuItem>
           <DropdownMenuItem>Logout</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

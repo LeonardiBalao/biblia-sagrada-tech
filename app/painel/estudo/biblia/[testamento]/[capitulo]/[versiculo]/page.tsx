@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { getUserProgress } from "@/server/actions/get-user-progress";
 import { setUserProgress } from "@/server/actions/set-user-progress";
 import { auth } from "@/server/auth";
-import { redirect } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import Bible from "./bible";
 import { treatTestamentSlug } from "@/server/utils/functions";
 
@@ -24,33 +24,28 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
   const cleanedTestamento = treatTestamentSlug(testamento);
 
   if (!session || !session?.user.id) return redirect("/auth/login");
-  const { success, error } = await getUserProgress(session.user.id);
-  if (error || !success) return redirect("/auth/login");
+  const { progress, error } = await getUserProgress(session.user.id);
+  if (error || !progress) return redirect("/auth/login");
   if (
-    cleanedTestamento !== success.testament ||
-    capitulo !== success.slug ||
-    parseInt(versiculo) !== success.verseId
+    cleanedTestamento !== progress.testament ||
+    capitulo !== progress.slug ||
+    parseInt(versiculo) !== progress.verseId
   )
-    return <div>Não autorizado</div>;
-
-  const next = async () => {
-    const { created, fail } = await setUserProgress(session.user.id!, success);
-    if (fail) {
-      toast.error(fail);
-      return;
-    }
-    toast.success(created);
-  };
+    return redirect(
+      `/painel/estudo/biblia/${progress.testament.toLowerCase()}-testamento/${
+        progress.slug
+      }/${progress.verseId}`
+    );
 
   return (
     <>
       <PainelAside />
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
-        <PainelNavbar />
+        <PainelNavbar user={session.user} />
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
             <div className="flex gap-4 flex-wrap">
-              <Bible progress={success} />
+              <Bible progress={progress} />
             </div>
           </div>
         </main>

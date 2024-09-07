@@ -164,13 +164,15 @@ model ReadingSession {
 model Note {
   id      String @id @default(cuid())
   userId  String
-  verseId Int?
+  verseId Int
   content String
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   verse   Verse? @relation(fields: [verseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([userId, verseId])
 }
 
 model ReadingPlan {
