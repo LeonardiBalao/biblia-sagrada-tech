@@ -1,24 +1,14 @@
 import PainelAside from "@/app/painel/painel-aside";
 import PainelNavbar from "@/app/painel/painel-navbar";
-import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import { toast } from "sonner";
 
-import { Separator } from "@/components/ui/separator";
 import { getUserProgress } from "@/server/actions/get-user-progress";
 import { setUserProgress } from "@/server/actions/set-user-progress";
 import { auth } from "@/server/auth";
-import { treatTestamentSlug } from "@/utils/functions";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import Bible from "./bible";
+import { treatTestamentSlug } from "@/utils/functions";
 
 interface PropertiesProps {
   params: {
