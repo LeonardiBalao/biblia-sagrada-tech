@@ -22,11 +22,16 @@ import {
 } from "../ui/card";
 import { Separator } from "@radix-ui/react-separator";
 import { AvatarIcon } from "@radix-ui/react-icons";
-import { User, UserCircle } from "lucide-react";
 import Google from "next-auth/providers/google";
 import AuthCard from "@/app/auth/login/auth-card";
+import { User } from "@prisma/client";
+import { ExtendUser } from "@/types/next-auth";
 
-export default function Navbar() {
+interface NavbarProps {
+  user: ExtendUser | undefined;
+}
+
+export default function Navbar({ user }: NavbarProps) {
   const links = [
     { href: "/painel/estudo", target: "_blank", label: "Estude a Bíblia" },
     { href: "/sobre-nos", target: "_blank", label: "Sobre nós" },
@@ -50,20 +55,26 @@ export default function Navbar() {
             </Link>
           ))}
         </ul>
-        <Drawer>
-          <DrawerTrigger
-            className={cn(buttonVariants({ variant: "default" }), "ml-4")}
-          >
-            Logar
-          </DrawerTrigger>
-          <DrawerContent className="flex justify-center">
-            <AuthCard
-              cardTitle="Bem-vindo"
-              description="Faça login ou registre-se"
-              showSocials
-            />
-          </DrawerContent>
-        </Drawer>
+        {!user ? (
+          <Drawer>
+            <DrawerTrigger
+              className={cn(buttonVariants({ variant: "default" }), "ml-4")}
+            >
+              Logar
+            </DrawerTrigger>
+            <DrawerContent className="flex justify-center">
+              <AuthCard
+                cardTitle="Bem-vindo"
+                description="Faça login ou registre-se"
+                showSocials
+              />
+            </DrawerContent>
+          </Drawer>
+        ) : (
+          <Link className="ml-4" href={"/painel"}>
+            <Button>Painel</Button>
+          </Link>
+        )}
       </nav>
     </header>
   );

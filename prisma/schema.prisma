@@ -104,6 +104,7 @@ enum TESTAMENT {
 model Chapter {
   id           Int       @id @default(autoincrement())
   testament    TESTAMENT
+  slug         String?
   name         String
   abbreviation String
   Verses       Verse[]
@@ -120,12 +121,14 @@ model Verse {
 }
 
 model ReadingProgress {
-  id      String  @id @default(cuid())
-  userId  String
-  verseId Int     @default(1)
-  read    Boolean
-  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  verse   Verse   @relation(fields: [verseId], references: [id], onDelete: Cascade)
+  id        String    @id @default(cuid())
+  userId    String    @unique
+  testament TESTAMENT
+  chapterId Int       @default(1)
+  verseId   Int       @default(1)
+  read      Boolean   @default(false)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  verse     Verse     @relation(fields: [verseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -161,10 +164,10 @@ model ReadingSession {
 model Note {
   id      String @id @default(cuid())
   userId  String
-  verseId Int
+  verseId Int?
   content String
   user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  verse   Verse  @relation(fields: [verseId], references: [id], onDelete: Cascade)
+  verse   Verse? @relation(fields: [verseId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
