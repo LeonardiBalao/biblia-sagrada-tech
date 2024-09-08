@@ -30,6 +30,8 @@ export default async function Painel() {
   const { error, success } = await getGeneralInfo();
   const chapters = await prisma.chapter.findMany({ take: 5 });
   if (error) return redirect("/");
+  if (session.user.firstLogin || !session.user.acceptsTerms)
+    return redirect("/painel/configuracoes");
   return (
     <>
       <PainelAside />
