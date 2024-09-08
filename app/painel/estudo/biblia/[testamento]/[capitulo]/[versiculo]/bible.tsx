@@ -11,28 +11,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import Link from "next/link";
-import { useEffect } from "react";
 import { toast } from "sonner";
 import Note from "./note";
 import { setUserProgress } from "@/server/actions/set-user-progress";
 import { useRouter } from "next/navigation";
+import { ExtendUser } from "@/types/next-auth";
 
 interface BibleProps {
   progress: UserProgress;
+  user: ExtendUser;
 }
 
-export default function Bible({ progress }: BibleProps) {
+export default function Bible({ progress, user }: BibleProps) {
   const router = useRouter();
   const handleSubmit = async () => {
-    const { success, error } = await setUserProgress(progress);
+    const { success, error } = await setUserProgress(progress, user);
     if (error) return toast.error(error);
-    toast.success(success);
-    router.push(
-      `/painel/estudo/biblia/${progress.testament.toLocaleLowerCase()}-testamento/${
-        progress.slug
-      }/${progress.verseId + 4}`
-    );
+    toast.success(success!.message);
+    router.push(`/painel/estudo/biblia/${success!.url}`);
   };
 
   return (
@@ -55,7 +51,7 @@ export default function Bible({ progress }: BibleProps) {
               variant={"outline"}
               className="text-center font-bold text-md mb-4 mx-auto rounded-full border-2"
             >
-              {progress.verses[0].id}
+              {progress.verses[0].number}
             </Badge>
             <Note verse={progress.verses[0]} progress={progress} />
           </div>
@@ -64,13 +60,13 @@ export default function Bible({ progress }: BibleProps) {
           </p>
         </div>
         {progress.verses.slice(1).map((v) => (
-          <div key={v.id} className="mb-2">
+          <div key={v.number} className="mb-2">
             <div className="w-full flex justify-center">
               <Badge
                 variant={"outline"}
                 className="text-center font-bold text-md mb-4 mx-auto rounded-full border-2"
               >
-                {v.id}
+                {v.number}
               </Badge>
               <Note verse={v} progress={progress} />
             </div>
@@ -82,7 +78,7 @@ export default function Bible({ progress }: BibleProps) {
       </CardContent>
       <CardFooter>
         <Button className="w-full" onClick={handleSubmit}>
-          Próxima página
+          {progress.verses.length === 3 ? "Próxima página" : "Próximo capitulo"}
         </Button>
       </CardFooter>
     </Card>

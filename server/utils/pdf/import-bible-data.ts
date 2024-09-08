@@ -1,6 +1,7 @@
 import { Chapter, TESTAMENT } from "@prisma/client";
 import { bible } from "./total";
 import prisma from "@/server/db";
+import { generateSlug } from "../functions";
 
 interface Verse {
   chapterId: number;
@@ -24,6 +25,7 @@ const importBible = async () => {
           abbreviation: currentChapter.slice(0, 2),
           testament:
             bible.indexOf(line) < 50279 ? TESTAMENT.VELHO : TESTAMENT.NOVO,
+          slug: generateSlug(currentChapter),
         },
       });
     } else {

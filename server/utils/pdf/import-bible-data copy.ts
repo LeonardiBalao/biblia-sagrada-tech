@@ -1,6 +1,7 @@
 import { Chapter, TESTAMENT } from "@prisma/client";
 import { bible } from "./total";
 import prisma from "@/server/db";
+import { generateSlug } from "../functions";
 
 interface Verse {
   chapterId: number;
@@ -22,6 +23,7 @@ const importBible = async () => {
             name: currentChapter,
             abbreviation: currentChapter.slice(0, 2),
             testament: TESTAMENT.VELHO,
+            slug: generateSlug(currentChapter),
           },
         });
       }
@@ -31,6 +33,7 @@ const importBible = async () => {
             name: currentChapter,
             abbreviation: currentChapter.slice(0, 2),
             testament: TESTAMENT.NOVO,
+            slug: generateSlug(currentChapter),
           },
         });
       }

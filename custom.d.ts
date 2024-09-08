@@ -1,7 +1,7 @@
 import { ReadingProgress } from "@prisma/client";
 
 interface verses {
-  id: number;
+  number: number;
   content: string;
 }
 

@@ -1,22 +1,83 @@
 "use server";
 
+import { ExtendUser } from "@/types/next-auth";
 import prisma from "../db";
 
-export const setUserProgress = async (progress: UserProgress) => {
+const versiclesAmount: number = 3;
+
+export const setUserProgress = async (
+  progress: UserProgress,
+  user: ExtendUser
+) => {
   try {
     const versesLength = await prisma.verse.count({
       where: { chapterId: progress.chapterId },
     });
-    if (progress.verseId + 4 >= versesLength) {
-      return { error: "Next chapter" };
+    if (progress.chapterId > 930) {
+      await prisma.readingProgress.update({
+        where: { userId: progress.userId },
+        data: {
+          testament: "NOVO",
+        },
+      });
+      progress.testament = "NOVO";
     }
+    const newChapterSlug = await prisma.chapter.findFirst({
+      where: { id: progress.chapterId + 1 },
+    });
+
+    if (!newChapterSlug) return { error: "No slug" };
+    // Move to next chapter
+    if (progress.verseNumber + 3 > versesLength) {
+      await prisma.readingProgress.update({
+        where: { userId: progress.userId },
+        data: {
+          chapterId: progress.chapterId + 1,
+          verseNumber: 1,
+        },
+      });
+
+      if (progress.chapterId > 1190) {
+        return { success: { message: "Acabou!", url: `success` } };
+      }
+
+      return {
+        success: {
+          message: "Você acaba de completar um capítulo!",
+          url: `${progress.testament.toLocaleLowerCase()}-testamento/${
+            newChapterSlug.slug
+          }/1`,
+        },
+      };
+    }
+
+    // Move to next verses
     await prisma.readingProgress.update({
       where: { userId: progress.userId },
       data: {
-        verseId: progress.verseId + 4,
+        verseNumber: progress.verseNumber + versiclesAmount,
       },
     });
-    return { success: `Versículo ${progress.verseId} lido.` };
+    await prisma.points.upsert({
+      where: { userId: progress.userId },
+      create: {
+        userId: progress.userId,
+        points: 3, // Initial points if the record doesn't exist
+      },
+      update: {
+        points: {
+          increment: 3, // Increment points by 3 if the record exists
+        },
+      },
+    });
+    return {
+      success: {
+        message: `${user.name.split(" ")[0]}, você ganhou 3 pontos!`,
+        url: `${progress.testament.toLocaleLowerCase()}-testamento/${
+          progress.slug
+        }/${progress.verseNumber + 3}`,
+      },
+    };
   } catch (err: any) {
     return { error: err.message };
   }

@@ -24,13 +24,13 @@ import { toast } from "sonner";
 
 interface NoteProps {
   className?: string;
-  verse: { id: number; content: string };
+  verse: { number: number; content: string };
   progress: UserProgress;
 }
 
 export default function Note({ className, progress, verse }: NoteProps) {
   const handleSubmit = async () => {
-    const { success, error } = await setNote(verse.id, progress, nota);
+    const { success, error } = await setNote(verse.number, progress, nota);
     if (error) return toast.error(error);
     toast.success(success);
   };
@@ -38,7 +38,10 @@ export default function Note({ className, progress, verse }: NoteProps) {
 
   useEffect(() => {
     const getUserNote = async () => {
-      const userNote: Note | null = await getNote(progress.userId, verse.id);
+      const userNote: Note | null = await getNote(
+        progress.userId,
+        verse.number
+      );
       if (userNote === null) return;
       if (userNote.content === "") return;
       setNota(userNote.content);

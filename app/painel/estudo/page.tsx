@@ -182,7 +182,7 @@ export default async function Painel() {
                       progress
                         ? `${progress.testament.toLocaleLowerCase()}-testamento/${
                             progress.slug
-                          }/${progress.verseId}`
+                          }/${progress.verseNumber}`
                         : "velho-testamento/genesis-1/1"
                     }`}
                   >
