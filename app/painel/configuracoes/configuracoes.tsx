@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -14,7 +15,8 @@ import { Separator } from "@/components/ui/separator";
 import { setUserConfig } from "@/server/actions/set-user-config";
 import { ExtendUser } from "@/types/next-auth";
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
 interface ConfiguracoesProps {
@@ -22,7 +24,7 @@ interface ConfiguracoesProps {
 }
 
 export function Configuracoes({ user }: ConfiguracoesProps) {
-  console.log(user);
+  const router = useRouter();
   const [terms, setTerms] = useState(user.acceptsTerms ? "Yes" : "No");
   const [notification, setNotification] = useState(
     user.acceptsNotification ? "Yes" : "No"
@@ -35,15 +37,24 @@ export function Configuracoes({ user }: ConfiguracoesProps) {
       );
     const { success, error } = await setUserConfig(terms, notification, user);
     if (error) return toast.error(error);
+    router.push("/painel");
     return toast.success(success);
   };
 
+  useEffect(() => {
+    router.refresh();
+  }, []);
+
   return (
-    <Card>
+    <Card className="max-w-md">
       <CardHeader>
-        <CardTitle className="text-xl">Olá, {user.name}</CardTitle>
+        <CardTitle className="text-xl">
+          Olá, {user.name.split(" ")[0]}
+        </CardTitle>
         <CardDescription>
-          Leia nossoas políticas e concorde com as políticas para continuar.
+          {user.firstLogin
+            ? "Leia nossoas políticas e concorde com as políticas para continuar."
+            : "Altere suas configurações"}
         </CardDescription>
         <Separator />
       </CardHeader>
@@ -89,7 +100,7 @@ export function Configuracoes({ user }: ConfiguracoesProps) {
             value={notification}
             onClick={() => {
               toast.success(
-                "Você poderá reverter essa opção a qualquer instante. Não faremos spam."
+                "Você poderá reverter essa opção a qualquer instante."
               );
               notification === "Yes"
                 ? setNotification("No")
@@ -105,6 +116,10 @@ export function Configuracoes({ user }: ConfiguracoesProps) {
             </label>
           </div>
         </div>
+        <p className="text-sm">
+          As notificações são essenciais para que nosso aplicativo acompanhe e
+          apoie seu progresso continuamente.
+        </p>
       </CardContent>
       <CardFooter>
         <Button className="w-full" onClick={handleSubmit}>

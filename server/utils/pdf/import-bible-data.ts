@@ -54,8 +54,6 @@ const importBible = async () => {
       data: currentVerse,
     });
   }
-
-  console.log(verses);
 };
 
 importBible();

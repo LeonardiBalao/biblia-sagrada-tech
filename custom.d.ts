@@ -12,6 +12,11 @@ declare global {
     verses: verses[];
   };
   type UserProgress = ProgressHelper & ReadingProgress;
+
+  interface LeaderboardUser {
+    name: string;
+    points: number;
+  }
 }
 
 export default global;

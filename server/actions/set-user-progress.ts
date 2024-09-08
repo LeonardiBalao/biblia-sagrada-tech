@@ -29,6 +29,7 @@ export const setUserProgress = async (
     if (!newChapterSlug) return { error: "No slug" };
     // Move to next chapter
     if (progress.verseNumber + 3 > versesLength) {
+      const finalVersesPoints = versesLength - progress.verseNumber;
       await prisma.readingProgress.update({
         where: { userId: progress.userId },
         data: {
@@ -41,9 +42,24 @@ export const setUserProgress = async (
         return { success: { message: "Acabou!", url: `success` } };
       }
 
+      await prisma.points.update({
+        where: {
+          userId: progress.userId,
+        },
+        data: {
+          points: {
+            increment: versesLength + finalVersesPoints,
+          },
+        },
+      });
+
       return {
         success: {
-          message: "Você acaba de completar um capítulo!",
+          message: `${
+            user.name.split(" ")[0]
+          }, você acaba de completar o capítulo ${
+            progress.chapterName
+          } e ganhou mais ${versesLength + finalVersesPoints} pontos!`,
           url: `${progress.testament.toLocaleLowerCase()}-testamento/${
             newChapterSlug.slug
           }/1`,

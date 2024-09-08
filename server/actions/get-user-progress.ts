@@ -7,7 +7,6 @@ export const getUserProgress = async (userId: string) => {
     const progress = await prisma.readingProgress.findFirst({
       where: { userId },
     });
-    console.log(progress);
 
     if (!progress) return { error: "No progress" };
 
@@ -15,7 +14,6 @@ export const getUserProgress = async (userId: string) => {
       where: { id: progress.chapterId },
     });
 
-    console.log(chapter);
     if (!chapter) return { error: "No chapter" };
 
     const versesLength = await prisma.verse.count({
@@ -23,8 +21,6 @@ export const getUserProgress = async (userId: string) => {
         chapterId: progress.chapterId,
       },
     });
-
-    console.log(versesLength);
 
     if (!versesLength) return { error: "No verses" };
 
@@ -41,7 +37,6 @@ export const getUserProgress = async (userId: string) => {
     ).map((v) => {
       return { number: v.number, content: v.content };
     });
-    console.log(verses);
 
     if (!verses) return {};
 

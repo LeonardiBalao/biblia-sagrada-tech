@@ -40,7 +40,7 @@ export const setUserConfig = async (
       },
     });
 
-    return { success: "Redirecionando para o painel..." };
+    return { success: "Configurações salvas. Redirecionando para o painel..." };
   } catch (err: any) {
     return { error: err.message };
   }

@@ -7,8 +7,6 @@ const options = {}; /* see below */
 import { TESTAMENT } from "@prisma/client";
 
 pdfExtract.extractBuffer(buffer, options, (err: any, data: any) => {
-  if (err) return console.log(err);
-
   const regex = /\(([^)]+)\)/;
 
   const chapters = data.pages[1].content.slice(10).map((c: any) => {

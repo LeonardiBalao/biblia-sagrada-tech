@@ -16,6 +16,7 @@ import Note from "./note";
 import { setUserProgress } from "@/server/actions/set-user-progress";
 import { useRouter } from "next/navigation";
 import { ExtendUser } from "@/types/next-auth";
+import { useEffect, useState } from "react";
 
 interface BibleProps {
   progress: UserProgress;
@@ -23,13 +24,32 @@ interface BibleProps {
 }
 
 export default function Bible({ progress, user }: BibleProps) {
+  const timer = 7;
+  const [seconds, setSeconds] = useState(timer);
+  const [loading, setLoading] = useState(false);
+  const [reading, setReading] = useState(true);
   const router = useRouter();
   const handleSubmit = async () => {
+    setLoading(true);
     const { success, error } = await setUserProgress(progress, user);
     if (error) return toast.error(error);
     toast.success(success!.message);
     router.push(`/painel/estudo/biblia/${success!.url}`);
+    return setTimeout(() => setLoading(false), 2000);
   };
+
+  useEffect(() => {
+    setTimeout(() => setReading(false), timer * 1000);
+  }, []);
+
+  useEffect(() => {
+    if (seconds > 0) {
+      const timerId = setInterval(() => {
+        setSeconds((prevSeconds) => prevSeconds - 1);
+      }, 1000);
+      return () => clearInterval(timerId);
+    }
+  }, [seconds]);
 
   return (
     <Card className="max-w-sm">
@@ -77,9 +97,28 @@ export default function Bible({ progress, user }: BibleProps) {
         ))}
       </CardContent>
       <CardFooter>
-        <Button className="w-full" onClick={handleSubmit}>
-          {progress.verses.length === 3 ? "Próxima página" : "Próximo capitulo"}
-        </Button>
+        {loading ? (
+          <Button className="w-full flex gap-4" variant={"outline"}>
+            <div className="w-4 h-4 border-2 border-blue-200 rounded-full animate-spin border-t-transparent" />
+            Carregando...
+          </Button>
+        ) : (
+          <Button
+            className="w-full flex gap-4"
+            disabled={reading}
+            onClick={handleSubmit}
+          >
+            {reading
+              ? "Leitura"
+              : progress.verses.length === 3
+              ? "Próxima página"
+              : "Próximo capítulo"}
+
+            {seconds !== 0 && (
+              <div className="text-md font-bold animate-pulse">{seconds}</div>
+            )}
+          </Button>
+        )}
       </CardFooter>
     </Card>
   );

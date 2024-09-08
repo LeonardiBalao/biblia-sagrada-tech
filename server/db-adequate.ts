@@ -15,7 +15,6 @@ const createChapterSlugs = async () => {
         slug: generateSlug(chapter.name),
       },
     });
-    console.log(newChapter.slug);
   }
 };
 

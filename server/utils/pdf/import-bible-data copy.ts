@@ -58,8 +58,6 @@ const importBible = async () => {
         data: currentVerse,
       });
     }
-
-    console.log(currentVerse);
   }
 };
 

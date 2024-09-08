@@ -38,8 +38,6 @@ export const setNote = async (
       },
     });
 
-    console.log(note);
-
     if (note.createdAt.getTime() === note.updatedAt.getTime())
       return { success: "Nota de texto criada." };
 

@@ -45,7 +45,6 @@ export default function PainelNavbar({ user }: PainelNavbarProps) {
   useEffect(() => {
     setPath(window.location.pathname);
     setPathLength(path.split("/").slice(1).length);
-    console.log(pathLength, path);
   }, [path, pathLength]);
   return (
     <header className="sticky top-0 z-30 flex h-14 items-center gap-4 bg-background px-4 sm:static sm:h-auto sm:bg-transparent sm:px-6 border-b-2 py-4 md:pb-4 md:pt-0">

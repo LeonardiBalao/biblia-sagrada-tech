@@ -14,8 +14,6 @@ interface Verse {
 }
 
 pdfExtract.extractBuffer(buffer, options, (err: any, data: any) => {
-  if (err) return console.log(err);
-
   let array = [];
   let pages = data.pages.length;
 

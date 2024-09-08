@@ -10,6 +10,7 @@ import {
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -23,15 +24,24 @@ import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
 import prisma from "@/server/db";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
+import { getTop10Users } from "@/server/actions/get-top-10-users";
 
 export default async function Painel() {
+  let top10users: LeaderboardUser[] = [];
   const session = await auth();
-  if (!session) return redirect("/");
-  const { error, success } = await getGeneralInfo();
+  if (!session) return redirect("/auth/login");
+  const { error, success } = await getGeneralInfo(session.user);
   const chapters = await prisma.chapter.findMany({ take: 5 });
-  if (error) return redirect("/");
+  if (error) return redirect("/painel/configuracoes");
   if (session.user.firstLogin || !session.user.acceptsTerms)
     return redirect("/painel/configuracoes");
+
+  const top10 = await getTop10Users();
+  if (!top10) {
+    top10users = [];
+  } else {
+    top10users = top10;
+  }
   return (
     <>
       <PainelAside />
@@ -48,7 +58,8 @@ export default async function Painel() {
               </CardHeader>
               <CardContent>
                 <div className="text-md font-bold">
-                  Capítulos: {success?.chaptersOld}
+                  Capítulos lidos: {success?.chaptersRead}/
+                  {success?.chaptersOld}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   Versículos: {success?.versesOld.toLocaleString()}
@@ -116,84 +127,30 @@ export default async function Painel() {
             </Card>
             <Card x-chunk="dashboard-01-chunk-5">
               <CardHeader>
-                <CardTitle>Classificação dos usuários</CardTitle>
+                <CardTitle className="text-center">TOP 10</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-8">
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/01.png" alt="Avatar" />
-                    <AvatarFallback>OM</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Olivia Martin
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      olivia.martin@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$1,999.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/02.png" alt="Avatar" />
-                    <AvatarFallback>JL</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Jackson Lee
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      jackson.lee@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$39.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/03.png" alt="Avatar" />
-                    <AvatarFallback>IN</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Isabella Nguyen
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      isabella.nguyen@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$299.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/04.png" alt="Avatar" />
-                    <AvatarFallback>WK</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      William Kim
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      will@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$99.00</div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <Avatar className="hidden h-9 w-9 sm:flex">
-                    <AvatarImage src="/avatars/05.png" alt="Avatar" />
-                    <AvatarFallback>SD</AvatarFallback>
-                  </Avatar>
-                  <div className="grid gap-1">
-                    <p className="text-sm font-medium leading-none">
-                      Sofia Davis
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      sofia.davis@email.com
-                    </p>
-                  </div>
-                  <div className="ml-auto font-medium">+$39.00</div>
-                </div>
+                <Table>
+                  <TableCaption>
+                    Os 10 usuários que mais estudam em nosso app.
+                  </TableCaption>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Nome</TableHead>
+                      <TableHead className="text-center">Pontuação</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {top10users.map((u, i) => (
+                      <TableRow key={i}>
+                        <TableCell>{u.name}</TableCell>
+                        <TableCell className="font-extrabold text-center">
+                          {u.points}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
               </CardContent>
             </Card>
           </div>

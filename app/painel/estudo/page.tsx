@@ -186,9 +186,7 @@ export default async function Painel() {
                         : "velho-testamento/genesis-1/1"
                     }`}
                   >
-                    <Button className="w-full">
-                      {progress ? "Continuar" : "Começar"}
-                    </Button>
+                    <Button className="w-full">Estudar</Button>
                   </Link>
                 </CardFooter>
               </Card>
