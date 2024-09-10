@@ -11,8 +11,8 @@ import { Container } from "./container";
 
 export const Faq = () => {
   return (
-    <Container className="!p-0">
-      <div className="w-full max-w-2xl p-2 mx-auto rounded-2xl">
+    <div className="!p-0">
+      <div className="w-full max-w-3xl p-2 mx-auto rounded-2xl">
         {faqdata.map((item, index) => (
           <div key={item.question} className="mb-5">
             <Accordion type="single" collapsible>
@@ -24,27 +24,29 @@ export const Faq = () => {
           </div>
         ))}
       </div>
-    </Container>
+    </div>
   );
 };
 
 const faqdata = [
   {
-    question: "Is this template completely free to use?",
-    answer: "Yes, this template is completely free to use.",
-  },
-  {
-    question: "Can I use it in a commercial project?",
-    answer: "Yes, this you can.",
-  },
-  {
-    question: "What is your refund policy? ",
+    question: "Como faço para contribuir?",
     answer:
-      "If you're unhappy with your purchase for any reason, email us within 90 days and we'll refund you in full, no questions asked.",
+      "Simples, basta enviar um pix para bibliasagradatech@gmail.com. Agradecemos imensamente a sua contribuição.",
   },
   {
-    question: "Do you offer technical support? ",
+    question: "O aplicativo é inteiro gratuito?",
     answer:
-      "No, we don't offer technical support for free downloads. Please purchase a support plan to get 6 months of support.",
+      "Sim, o aplicativo é 100% gratuitomas depende de contribuições para se manter, visto que o custo de mantê-lo no ar é bem alto. Caso nós os usuários não contribuam o suficiente, pode ser que se torne pago.",
+  },
+  {
+    question: "Posso compartilhar?",
+    answer:
+      "Com certeza. A sua ajuda na divulgação é essencial para que mais pessoas possam estudar as escrituras.",
+  },
+  {
+    question: "Como entro em contato?",
+    answer:
+      "Encaminhe um email para bibliasagradatech@gmail.com, respoderemos assim que possível.",
   },
 ];

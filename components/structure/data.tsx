@@ -48,7 +48,7 @@ const benefitTwo = {
   image: benefitTwoImg,
   bullets: [
     {
-      title: "Estude no seu smartphone",
+      title: "Estude do seu smartphone",
       desc: "A Bíblia Sagrada Tech é projetada como um template responsivo, também atendendo a experiência móvel.",
       icon: <Smartphone />,
     },

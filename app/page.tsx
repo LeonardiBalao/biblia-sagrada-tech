@@ -14,7 +14,7 @@ import { auth } from "@/server/auth";
 export default async function Home() {
   const session = await auth();
   return (
-    <div>
+    <>
       <Navbar user={session?.user} />
       <Container>
         <Hero />
@@ -27,29 +27,27 @@ export default async function Home() {
         <Benefits imgPos="right" data={benefitTwo} />
 
         <SectionTitle
-          preTitle="Watch a video"
-          title="Learn how to fullfil your needs"
+          preTitle="A Importância da Leitura da Bíblia"
+          title="Benefícios Cerebrais"
         >
-          This section is to highlight a promo or demo video of your product.
-          Analysts says a landing page with video has 3% more conversion rate.
-          So, don&apos;t forget to add one. Just like this.
+          Estudos mostram que ler a Bíblia regularmente reduz solidão, raiva,
+          alcoolismo e comportamentos prejudiciais. Também fortalece a memória e
+          a habilidade de compartilhar a fé.
         </SectionTitle>
 
-        <Video videoId="fZ0D0cnR88E" />
+        <Video videoId="KW4sZROK5hU" />
 
         <SectionTitle
-          preTitle="Testimonials"
-          title="Here's what our customers said"
+          preTitle="Testemunhos"
+          title="Veja o que nossos usuários tem falado sobre o aplicativo"
         >
-          Testimonials is a great way to increase the brand trust and awareness.
-          Use this section to highlight your popular customers.
+          Os usuários são nossos maiores divulgadores
         </SectionTitle>
 
         <Testimonials />
 
-        <SectionTitle preTitle="FAQ" title="Frequently Asked Questions">
-          Answer your customers possible questions here, it will increase the
-          conversion rate as well as support or chat requests.
+        <SectionTitle preTitle="FAQ" title="Perguntas Frequentes">
+          Qualquer dúvida, entre em contato com a gente!
         </SectionTitle>
 
         <Faq />
@@ -57,6 +55,6 @@ export default async function Home() {
 
         <Footer />
       </Container>
-    </div>
+    </>
   );
 }
