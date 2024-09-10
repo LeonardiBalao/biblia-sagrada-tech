@@ -19,7 +19,7 @@ export default function ThemeButtons({ className }: { className: string }) {
     <>
       <div
         className={cn(
-          "flex gap-2 items-center group justify-center text-sm px-2 py-1 rounded-full border-2 border-primary scale-75",
+          "flex gap-2 items-center group justify-center text-sm px-2 py-1 rounded-full border-2 border-secondary scale-75 shadow-lg",
           className
         )}
       >
