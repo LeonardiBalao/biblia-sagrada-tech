@@ -34,14 +34,13 @@ export const Hero = () => {
                 width="616"
                 height="300"
                 className={
-                  "object-cover rounded-xl md:mt-12 bg-blend-lighten md:bg-blend-darken"
+                  "object-cover rounded-xl md:mt-12 shadow-2xl border-2 border-gray-400 backdrop-blur bg-white/50"
                 }
                 alt="bible"
                 loading="eager"
               />
             </AspectRatio>
           </div>
-          <div className="absolute inset-4 md:inset-x-40 w-[350px] h-[520px] bg-gray-400 rounded-xl " />
         </div>
       </Container>
       {/* <Container>
