@@ -74,7 +74,7 @@ export default function Navbar({ user }: NavbarProps) {
             </DrawerContent>
           </Drawer>
         ) : (
-          <Link className="ml-4" href={"/painel"}>
+          <Link className="ml-2 md:ml-4" href={"/painel"}>
             <Button>Painel</Button>
           </Link>
         )}

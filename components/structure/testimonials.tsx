@@ -11,7 +11,7 @@ export const Testimonials = () => {
     <Container>
       <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
         <div className="lg:col-span-2 xl:col-auto">
-          <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-trueGray-800">
+          <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-gray-800">
             <p className="text-2xl leading-normal ">
               A Bíblia Sagrada Tech tornou meu estudo bíblico{" "}
               <Mark> divertido</Mark> e <Mark>envolvente</Mark>!
@@ -25,7 +25,7 @@ export const Testimonials = () => {
           </div>
         </div>
         <div className="">
-          <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-trueGray-800">
+          <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-gray-800">
             <p className="text-2xl leading-normal ">
               Ganhar pontos e desbloquear conquistas me <Mark>motiva</Mark> a
               ler mais a Bíblia!
@@ -39,7 +39,7 @@ export const Testimonials = () => {
           </div>
         </div>
         <div className="">
-          <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-trueGray-800">
+          <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-gray-800">
             <p className="text-2xl leading-normal ">
               Organizar estudos bíblicos nunca foi tão <Mark>fácil</Mark> e{" "}
               <Mark>interativo</Mark>!

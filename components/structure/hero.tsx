@@ -21,24 +21,27 @@ export const Hero = () => {
 
             <div className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
               <Link href={"/auth/login"}>
-                <Button size={"lg"}>Comece grátis</Button>
+                <Button size={"lg"}>Comecar Minha Jornada</Button>
               </Link>
             </div>
           </div>
         </div>
-        <div className="flex items-center justify-center w-full lg:w-1/2">
-          <div className="w-[350px]">
+        <div className="flex items-center justify-center w-full lg:w-1/2 relative">
+          <div className="w-[350px] relative z-10">
             <AspectRatio ratio={9 / 16}>
               <Image
                 src={Bible}
                 width="616"
                 height="300"
-                className={"object-cover rounded-xl"}
+                className={
+                  "object-cover rounded-xl md:mt-12 bg-blend-lighten md:bg-blend-darken"
+                }
                 alt="bible"
                 loading="eager"
               />
             </AspectRatio>
           </div>
+          <div className="absolute inset-4 md:inset-x-40 w-[350px] h-[520px] bg-gray-400 rounded-xl " />
         </div>
       </Container>
       {/* <Container>

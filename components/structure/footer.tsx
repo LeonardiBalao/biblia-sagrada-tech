@@ -5,7 +5,7 @@ import { Container } from "./container";
 import { Church } from "lucide-react";
 
 export function Footer() {
-  const navigation = ["Painel", "Estudo", "Produtos", "Sobre nós", "Contato"];
+  const navigation = ["Estudo", "Produtos", "Sobre nós", "Contato"];
   const legal = ["Política de Uso", "Política de Privacidade"];
   return (
     <div className="relative">
@@ -19,15 +19,15 @@ export function Footer() {
                 className="flex items-center space-x-2 text-2xl font-medium dark:text-gray-100"
               >
                 <Church />
-                <span>BibliaSagrada.Tech</span>
+                <span className="logo font-extrabold font-mono text-xl cursor-pointer">
+                  BibliaSagrada.Tech
+                </span>
               </Link>
             </div>
 
             <div className="max-w-md mt-4 text-gray-500 dark:text-gray-400">
               Oferecemos uma plataforma gratuita para leitura da Bíblia, com
-              parte das contribuições destinadas a doações para causas sociais,
-              utilizando gamificação para tornar o aprendizado mais leve e
-              interessante.
+              parte das contribuições destinadas a doações para causas sociais.
             </div>
           </div>
 
