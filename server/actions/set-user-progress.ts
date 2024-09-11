@@ -2,6 +2,8 @@
 
 import { ExtendUser } from "@/types/next-auth";
 import prisma from "../db";
+import { setAchievements } from "./set-achievement";
+import { Achievement } from "@prisma/client";
 
 const versiclesAmount: number = 3;
 
@@ -10,6 +12,9 @@ export const setUserProgress = async (
   user: ExtendUser
 ) => {
   try {
+    // First Achievement
+    const newAchievement = await setAchievements(progress);
+
     const versesLength = await prisma.verse.count({
       where: { chapterId: progress.chapterId },
     });
@@ -39,7 +44,9 @@ export const setUserProgress = async (
       });
 
       if (progress.chapterId > 1190) {
-        return { success: { message: "Acabou!", url: `success` } };
+        return {
+          success: { message: "Acabou!", url: `success`, newAchievement },
+        };
       }
 
       await prisma.points.update({
@@ -63,6 +70,7 @@ export const setUserProgress = async (
           url: `${progress.testament.toLocaleLowerCase()}-testamento/${
             newChapterSlug.slug
           }/1`,
+          newAchievement,
         },
       };
     }
@@ -92,6 +100,7 @@ export const setUserProgress = async (
         url: `${progress.testament.toLocaleLowerCase()}-testamento/${
           progress.slug
         }/${progress.verseNumber + 3}`,
+        newAchievement,
       },
     };
   } catch (err: any) {

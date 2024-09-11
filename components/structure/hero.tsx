@@ -34,7 +34,7 @@ export const Hero = () => {
                 width="616"
                 height="300"
                 className={
-                  "object-cover rounded-xl md:mt-12 shadow-2xl border-2 border-gray-400 backdrop-blur bg-white/50"
+                  "object-cover rounded-xl md:mt-12 shadow-2xl border-2 border-gray-400 backdrop-blur"
                 }
                 alt="bible"
                 loading="eager"

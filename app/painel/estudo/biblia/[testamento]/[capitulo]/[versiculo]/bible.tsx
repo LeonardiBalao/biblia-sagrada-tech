@@ -34,6 +34,11 @@ export default function Bible({ progress, user }: BibleProps) {
     const { success, error } = await setUserProgress(progress, user);
     if (error) return toast.error(error);
     toast.success(success!.message);
+    if (success?.newAchievement) {
+      toast.message(`Nova conquista! ${success.newAchievement.name}`, {
+        description: success.newAchievement.description,
+      });
+    }
     router.push(`/painel/estudo/biblia/${success!.url}`);
     return setTimeout(() => setLoading(false), 2000);
   };

@@ -1,32 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import { Button, buttonVariants } from "../ui/button";
-import {
-  Drawer,
-  DrawerClose,
-  DrawerContent,
-  DrawerDescription,
-  DrawerFooter,
-  DrawerHeader,
-  DrawerTitle,
-  DrawerTrigger,
-} from "@/components/ui/drawer";
+import { Drawer, DrawerContent, DrawerTrigger } from "@/components/ui/drawer";
 import ThemeButtons from "./theme-buttons";
 import { cn } from "@/lib/utils";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "../ui/card";
-import { Separator } from "@radix-ui/react-separator";
-import { AvatarIcon } from "@radix-ui/react-icons";
-import Google from "next-auth/providers/google";
+
 import AuthCard from "@/app/auth/login/auth-card";
-import { User } from "@prisma/client";
 import { ExtendUser } from "@/types/next-auth";
-import { Church } from "lucide-react";
 
 interface NavbarProps {
   user: ExtendUser | undefined;
@@ -61,7 +42,7 @@ export default function Navbar({ user }: NavbarProps) {
         {!user ? (
           <Drawer>
             <DrawerTrigger
-              className={cn(buttonVariants({ variant: "default" }), "")}
+              className={cn(buttonVariants({ variant: "default" }), "ml-2")}
             >
               Logar
             </DrawerTrigger>

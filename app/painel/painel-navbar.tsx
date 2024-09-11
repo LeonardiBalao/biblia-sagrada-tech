@@ -20,6 +20,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { signOut } from "@/server/auth";
 import { ExtendUser } from "@/types/next-auth";
 import {
   PanelLeft,
@@ -151,7 +152,9 @@ export default function PainelNavbar({ user }: PainelNavbarProps) {
           <DropdownMenuItem>Meu perfil</DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>Suporte</DropdownMenuItem>
-          <DropdownMenuItem>Logout</DropdownMenuItem>
+          <DropdownMenuItem>
+            <Link href={"/auth/logout"}>Logout</Link>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </header>

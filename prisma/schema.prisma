@@ -26,19 +26,16 @@ model User {
   sessions             Session[]
   Authenticator        Authenticator[]
 
-  createdAt         DateTime            @default(now())
-  updatedAt         DateTime            @updatedAt
-  ReadingStatistics ReadingStatistics[]
-  ReadingSession    ReadingSession[]
-  ReadingPlan       ReadingPlan[]
-  Points            Points[]
-  Level             Level[]
-  Achievement       Achievement[]
-  Badge             Badge[]
-  UserChallenge     UserChallenge[]
-  Leaderboard       Leaderboard[]
-  ReadingProgress   ReadingProgress[]
-  Note              Note[]
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  ReadingPlan     ReadingPlan[]
+  Points          Points[]
+  Achievement     Achievement[]
+  Badge           Badge[]
+  UserChallenge   UserChallenge[]
+  Leaderboard     Leaderboard[]
+  ReadingProgress ReadingProgress[]
+  Note            Note[]
 }
 
 model Account {
@@ -131,31 +128,6 @@ model ReadingProgress {
   updatedAt DateTime @updatedAt
 }
 
-model ReadingStatistics {
-  id           String @id @default(cuid())
-  userId       String
-  totalTime    Int // Total reading time in minutes
-  chaptersRead Int // Number of chapters read
-  versesRead   Int // Number of verses read
-  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model ReadingSession {
-  id           String   @id @default(cuid())
-  userId       String
-  startTime    DateTime
-  endTime      DateTime
-  chaptersRead Int // Number of chapters read in the session
-  versesRead   Int // Number of verses read in the session
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Note {
   id      String @id @default(cuid())
   userId  String
@@ -193,21 +165,12 @@ model Points {
   updatedAt DateTime @updatedAt
 }
 
-model Level {
-  id     String @id @default(cuid())
-  userId String
-  level  Int    @default(1)
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Achievement {
   id          String @id @default(cuid())
   userId      String
-  name        String
+  name        String @unique
   description String
+  icon        String
   user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
@@ -219,6 +182,7 @@ model Badge {
   userId      String
   name        String
   description String
+  icon        String
   user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime    @default(now())
