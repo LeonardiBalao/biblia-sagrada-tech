@@ -3,7 +3,6 @@
 import { ExtendUser } from "@/types/next-auth";
 import prisma from "../db";
 import { setAchievements } from "./set-achievement";
-import { Achievement } from "@prisma/client";
 
 const versiclesAmount: number = 3;
 
@@ -34,12 +33,15 @@ export const setUserProgress = async (
     if (!newChapterSlug) return { error: "No slug" };
     // Move to next chapter
     if (progress.verseNumber + 3 > versesLength) {
-      const finalVersesPoints = versesLength - progress.verseNumber;
+      const finalVersesPoints = versesLength - progress.verseNumber + 1;
       await prisma.readingProgress.update({
         where: { userId: progress.userId },
         data: {
           chapterId: progress.chapterId + 1,
           verseNumber: 1,
+          verseId: {
+            increment: finalVersesPoints,
+          },
         },
       });
 
@@ -80,6 +82,9 @@ export const setUserProgress = async (
       where: { userId: progress.userId },
       data: {
         verseNumber: progress.verseNumber + versiclesAmount,
+        verseId: {
+          increment: versiclesAmount,
+        },
       },
     });
     await prisma.points.upsert({

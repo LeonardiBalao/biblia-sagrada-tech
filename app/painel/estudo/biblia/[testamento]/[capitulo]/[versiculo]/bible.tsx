@@ -24,7 +24,7 @@ interface BibleProps {
 }
 
 export default function Bible({ progress, user }: BibleProps) {
-  const timer = 7;
+  const timer = 2;
   const [seconds, setSeconds] = useState(timer);
   const [loading, setLoading] = useState(false);
   const [reading, setReading] = useState(true);
@@ -35,7 +35,7 @@ export default function Bible({ progress, user }: BibleProps) {
     if (error) return toast.error(error);
     toast.success(success!.message);
     if (success?.newAchievement) {
-      toast.message(`Nova conquista! ${success.newAchievement.name}`, {
+      toast.message(`😀 Nova conquista!	${success.newAchievement.name}`, {
         description: success.newAchievement.description,
       });
     }

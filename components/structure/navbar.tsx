@@ -21,7 +21,7 @@ export default function Navbar({ user }: NavbarProps) {
   return (
     <header className="flex items-center justify-between p-4 border-b-2">
       <Link href={"/"} className="flex gap-4">
-        <h1 className="logo font-extrabold font-mono text-xl cursor-pointer">
+        <h1 className="logo font-extrabold font-mono text-lg cursor-pointer">
           BibliaSagrada.tech
         </h1>
       </Link>

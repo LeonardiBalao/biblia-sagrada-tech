@@ -25,24 +25,22 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <html lang="en-US" suppressHydrationWarning>
-        <body
-          className={cn("flex min-h-svh w-full flex-col", fontSans.className)}
+    <html lang="pt-BR" suppressHydrationWarning>
+      <body
+        className={cn("flex min-h-svh w-full flex-col", fontSans.className)}
+      >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
         >
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-            <Toaster richColors position="top-center" />
-          </ThemeProvider>
-          <Analytics />
-          <SpeedInsights />
-        </body>
-      </html>
+          {children}
+        </ThemeProvider>
+        <Toaster richColors position="top-center" />
+        <Analytics />
+        <SpeedInsights />
+      </body>
     </html>
   );
 }

@@ -70,7 +70,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 3 - Levítico
-  if (progress.chapterId === 119 || progress.verseNumber < 4) {
+  if (progress.chapterId === 119 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Guardião das Leis",
@@ -91,7 +91,7 @@ export const setAchievements = async (progress: UserProgress) => {
     return null;
   }
   // 4 - Números
-  if (progress.chapterId === 155 || progress.verseNumber < 4) {
+  if (progress.chapterId === 155 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Explorador do Deserto",
@@ -113,7 +113,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 5 - Deuteronônimio
-  if (progress.chapterId === 189 || progress.verseNumber < 4) {
+  if (progress.chapterId === 189 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Sábio das Leis",
@@ -135,7 +135,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 6 - Josué
-  if (progress.chapterId === 213 || progress.verseNumber < 4) {
+  if (progress.chapterId === 213 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Conquistador",
@@ -157,7 +157,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 7 - Juízes
-  if (progress.chapterId === 234 || progress.verseNumber < 4) {
+  if (progress.chapterId === 234 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Defensor da Justiça",
@@ -179,7 +179,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 8 - Rute
-  if (progress.chapterId === 238 || progress.verseNumber < 4) {
+  if (progress.chapterId === 238 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Fiel Companheiro",
@@ -201,7 +201,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 9 - Samuel
-  if (progress.chapterId === 293 || progress.verseNumber < 4) {
+  if (progress.chapterId === 293 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Ungido",
@@ -223,7 +223,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 10 - Reis
-  if (progress.chapterId === 340 || progress.verseNumber < 4) {
+  if (progress.chapterId === 340 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Construtor do Templo e Historiador Real",
@@ -246,7 +246,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 11 - Crônicas
-  if (progress.chapterId === 405 || progress.verseNumber < 4) {
+  if (progress.chapterId === 405 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Cronista",
@@ -269,7 +269,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 12 - Esdras
-  if (progress.chapterId === 415 || progress.verseNumber < 4) {
+  if (progress.chapterId === 415 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Restaurador",
@@ -292,7 +292,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 13 - Neemias
-  if (progress.chapterId === 428 || progress.verseNumber < 4) {
+  if (progress.chapterId === 428 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Reconstrutor",
@@ -314,7 +314,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 14 - Ester
-  if (progress.chapterId === 438 || progress.verseNumber < 4) {
+  if (progress.chapterId === 438 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Salvador do Povo",
@@ -336,7 +336,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Jó
-  if (progress.chapterId === 480 || progress.verseNumber < 4) {
+  if (progress.chapterId === 480 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Paciente",
@@ -358,7 +358,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Salmos
-  if (progress.chapterId === 630 || progress.verseNumber < 4) {
+  if (progress.chapterId === 630 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Adorador",
@@ -380,7 +380,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Provérbios
-  if (progress.chapterId === 661 || progress.verseNumber < 4) {
+  if (progress.chapterId === 661 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Adorador da Sabedoria",
@@ -401,7 +401,7 @@ export const setAchievements = async (progress: UserProgress) => {
     return null;
   }
   // 15 - Eclesiastes
-  if (progress.chapterId === 673 || progress.verseNumber < 4) {
+  if (progress.chapterId === 673 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Filósofo",
@@ -423,7 +423,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Canticos
-  if (progress.chapterId === 681 || progress.verseNumber < 4) {
+  if (progress.chapterId === 681 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Poeta",
@@ -445,7 +445,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Isaias
-  if (progress.chapterId === 747 || progress.verseNumber < 4) {
+  if (progress.chapterId === 747 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Profecias de Isaías",
@@ -467,7 +467,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Jeremias
-  if (progress.chapterId === 799 || progress.verseNumber < 4) {
+  if (progress.chapterId === 799 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Lamentador",
@@ -489,7 +489,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Lamentações de jeremias
-  if (progress.chapterId === 804 || progress.verseNumber < 4) {
+  if (progress.chapterId === 804 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "A queda de Jerusalém",
@@ -511,7 +511,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Ezequiel
-  if (progress.chapterId === 852 || progress.verseNumber < 4) {
+  if (progress.chapterId === 852 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Ezequiel",
@@ -533,7 +533,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Daniel
-  if (progress.chapterId === 864 || progress.verseNumber < 4) {
+  if (progress.chapterId === 864 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Interprete de Sonhos",
@@ -556,7 +556,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Oséias
-  if (progress.chapterId === 878 || progress.verseNumber < 4) {
+  if (progress.chapterId === 878 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Mensageiro do Amor",
@@ -578,7 +578,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Joel
-  if (progress.chapterId === 881 || progress.verseNumber < 4) {
+  if (progress.chapterId === 881 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Arauto do Dia do Senhor",
@@ -600,7 +600,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Amós
-  if (progress.chapterId === 890 || progress.verseNumber < 4) {
+  if (progress.chapterId === 890 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Defensor da Justiça",
@@ -622,7 +622,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Obadias
-  if (progress.chapterId === 891 || progress.verseNumber < 4) {
+  if (progress.chapterId === 891 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Profeta da Justiça",
@@ -645,7 +645,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Jonas
-  if (progress.chapterId === 895 || progress.verseNumber < 4) {
+  if (progress.chapterId === 895 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Mensageiro da Misericórdia",
@@ -667,7 +667,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Miqueias
-  if (progress.chapterId === 902 || progress.verseNumber < 4) {
+  if (progress.chapterId === 902 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Profeta da Justiça e Misericórdia",
@@ -690,7 +690,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Naum
-  if (progress.chapterId === 905 || progress.verseNumber < 4) {
+  if (progress.chapterId === 905 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Arauto da Queda",
@@ -712,7 +712,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Habacuque
-  if (progress.chapterId === 908 || progress.verseNumber < 4) {
+  if (progress.chapterId === 908 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Profeta da Fé",
@@ -734,7 +734,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Sofonias
-  if (progress.chapterId === 911 || progress.verseNumber < 4) {
+  if (progress.chapterId === 911 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Arauto do Dia do Senhor",
@@ -757,7 +757,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Ageu
-  if (progress.chapterId === 913 || progress.verseNumber < 4) {
+  if (progress.chapterId === 913 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Construtor do Templo",
@@ -780,7 +780,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Zacarias
-  if (progress.chapterId === 927 || progress.verseNumber < 4) {
+  if (progress.chapterId === 927 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Profeta da Esperança",
@@ -802,7 +802,7 @@ export const setAchievements = async (progress: UserProgress) => {
   }
 
   // 15 - Malaquias
-  if (progress.chapterId === 931 || progress.verseNumber < 4) {
+  if (progress.chapterId === 931 && progress.verseNumber < 4) {
     const newAchievement = await prisma.achievement.findFirst({
       where: {
         name: "Mensageiro da Aliança",

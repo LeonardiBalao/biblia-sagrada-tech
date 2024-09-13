@@ -105,13 +105,13 @@ export default function PainelNavbar({ user }: PainelNavbarProps) {
               <BreadcrumbItem key={i}>
                 <BreadcrumbLink asChild>
                   <Link
-                    className="flex items-center gap-4"
-                    href={`${
+                    className="flex items-center gap-4 text-xs"
+                    href={`/${
                       i == 0
                         ? p
                         : path
                             .split("/")
-                            .slice(0, i + 1)
+                            .slice(1, i + 2)
                             .join("/")
                     }`}
                   >

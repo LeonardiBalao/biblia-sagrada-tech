@@ -122,6 +122,7 @@ model ReadingProgress {
   testament   TESTAMENT
   chapterId   Int       @default(1)
   verseNumber Int       @default(1)
+  verseId     Int       @default(1)
   user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())

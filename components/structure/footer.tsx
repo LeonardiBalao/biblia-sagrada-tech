@@ -8,7 +8,7 @@ export function Footer() {
   const navigation = ["Estudo", "Produtos", "Sobre nós", "Contato"];
   const legal = ["Política de Uso", "Política de Privacidade"];
   return (
-    <div className="relative">
+    <Container className="relative">
       <footer>
         <div className="grid max-w-screen-xl grid-cols-1 gap-10 pt-10 mx-auto mt-5 border-t-2 border-gray-100 dark:border-trueGray-700 lg:grid-cols-5">
           <div className="lg:col-span-2">
@@ -76,7 +76,7 @@ export function Footer() {
           Copyright © {new Date().getFullYear()} - BibliaSagrada.Tech
         </div>
       </footer>
-    </div>
+    </Container>
   );
 }
 

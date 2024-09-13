@@ -1,12 +1,6 @@
-import { ChartLine, Cross } from "lucide-react";
+import { Book, ChartLine, Cross, Medal, Trophy } from "lucide-react";
 
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -18,23 +12,33 @@ import {
 } from "@/components/ui/table";
 import PainelAside from "./painel-aside";
 import PainelNavbar from "./painel-navbar";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { getGeneralInfo } from "@/server/actions/get-general-info";
 import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
-import prisma from "@/server/db";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
 import { getTop10Users } from "@/server/actions/get-top-10-users";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { getAchievements } from "@/server/actions/get-achievements";
+import { mapIcon } from "@/server/utils/functions";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 export default async function Painel() {
   let top10users: LeaderboardUser[] = [];
   const session = await auth();
-  if (!session) return redirect("/auth/login");
+  if (!session || !session.user.id) return redirect("/auth/login");
   const { error, success } = await getGeneralInfo(session.user);
-  const chapters = await prisma.chapter.findMany({ take: 5 });
   if (error) return redirect("/painel/configuracoes");
   if (session.user.firstLogin || !session.user.acceptsTerms)
     return redirect("/painel/configuracoes");
+
+  const achievements = await getAchievements(session.user.id);
 
   const top10 = await getTop10Users();
   if (!top10) {
@@ -48,6 +52,16 @@ export default async function Painel() {
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <PainelNavbar user={session.user} />
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
+          <Link
+            className="w-full md:w-min"
+            href={"/painel/estudo/biblia/velho-testamento/genesis-1/1"}
+          >
+            <Button className="w-full flex gap-4">
+              <Book size={18} />
+              Estudar a Bíblia
+            </Button>
+          </Link>
+
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -62,7 +76,8 @@ export default async function Painel() {
                   {success?.chaptersOld}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Versículos: {success?.versesOld.toLocaleString()}
+                  Versículos lidos: {success?.verseId! - 1}/{" "}
+                  {success?.versesOld.toLocaleString()}
                 </p>
               </CardContent>
             </Card>
@@ -75,85 +90,106 @@ export default async function Painel() {
               </CardHeader>
               <CardContent>
                 <div className="text-md font-bold">
-                  Capítulos: {success?.chaptersNew}
+                  Capítulos:{" "}
+                  {success?.chaptersRead! < 932
+                    ? 0
+                    : success?.chaptersRead! - 931}
+                  /{success?.chaptersNew}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Versículos: {success?.versesNew.toLocaleString()}
+                  Versículos:{" "}
+                  {success?.verseId! < 7943
+                    ? 0
+                    : (success?.verseId! - 7943).toLocaleString()}
+                  /{success?.versesNew.toLocaleString()}
                 </p>
               </CardContent>
             </Card>
-            <Card x-chunk="dashboard-01-chunk-2">
+            <Card>
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-lg font-semibold">
-                  Desafios
+                <CardTitle className="text-lg font-semibold ">
+                  Minhas conquistas
                 </CardTitle>
-                <QuestionMarkCircledIcon className="h-4 w-4 text-muted-foreground" />
+                <Trophy fill="gold" className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-md font-bold">
-                  Capítulos: {success?.chaptersNew}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Versículos: {success?.versesNew.toLocaleString()}
-                </p>
-              </CardContent>
-            </Card>
-            <Card x-chunk="dashboard-01-chunk-4">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-lg font-semibold">
-                  Progresso
-                </CardTitle>
-                <ChartLine className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-md font-bold">
-                  Capítulos: {success?.chaptersNew}
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Versículos: {success?.versesNew.toLocaleString()}
-                </p>
+                <Carousel className="cursor-pointer">
+                  <CarouselContent className="p-4">
+                    {achievements.success?.length ? (
+                      achievements.success
+                        .sort(
+                          (a, b) =>
+                            b.createdAt.getTime() - a.createdAt.getTime()
+                        )
+                        .map((a) => (
+                          <CarouselItem
+                            key={a.id}
+                            className="border rounded-lg p-4 text-sm flex flex-col items-center justify-center gap-2 bg-secondary mr-2"
+                          >
+                            <div className="font-bold">{a.name}</div>
+                            <div>{mapIcon(a.icon)}</div>
+                            <div className="text-xs text-center">
+                              {a.description}
+                            </div>
+                          </CarouselItem>
+                        ))
+                    ) : (
+                      <CarouselItem>
+                        <div className="flex flex-col gap-4">
+                          <p>Ganhar minha primeira conquista</p>
+                          <Link
+                            href={
+                              "/painel/estudo/biblia/velho-testamento/genesis-1/1"
+                            }
+                            className="w-full"
+                          >
+                            <Button variant={"secondary"} className="w-full">
+                              Estudar
+                            </Button>
+                          </Link>
+                        </div>
+                      </CarouselItem>
+                    )}
+                  </CarouselContent>
+
+                  {achievements.success?.length! > 1 && (
+                    <>
+                      <CarouselNext />
+                      <CarouselPrevious />
+                    </>
+                  )}
+                </Carousel>
               </CardContent>
             </Card>
           </div>
-          <div className="grid gap-4 md:gap-8 lg:grid-cols-2 xl:grid-cols-3">
-            <Card className="xl:col-span-2" x-chunk="dashboard-01-chunk-4">
-              <CardHeader className="flex flex-row items-center">
-                <div className="grid gap-2">
-                  <CardTitle>Próximos Capítulos</CardTitle>
-                  <CardDescription>Continue de onde parou</CardDescription>
-                </div>
-              </CardHeader>
-              <CardContent></CardContent>
-            </Card>
-            <Card x-chunk="dashboard-01-chunk-5">
-              <CardHeader>
-                <CardTitle className="text-center">TOP 10</CardTitle>
-              </CardHeader>
-              <CardContent className="grid gap-8">
-                <Table>
-                  <TableCaption>
-                    Os 10 usuários que mais estudam em nosso app.
-                  </TableCaption>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Nome</TableHead>
-                      <TableHead className="text-center">Pontuação</TableHead>
+          <Card x-chunk="dashboard-01-chunk-5">
+            <CardHeader>
+              <CardTitle className="text-center">TOP 10</CardTitle>
+            </CardHeader>
+            <CardContent className="grid gap-8">
+              <Table>
+                <TableCaption>
+                  Os 10 usuários que mais estudam em nosso app.
+                </TableCaption>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Nome</TableHead>
+                    <TableHead className="text-center">Pontuação</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {top10users.map((u, i) => (
+                    <TableRow key={i}>
+                      <TableCell>{u.name}</TableCell>
+                      <TableCell className="font-extrabold text-center">
+                        {u.points}
+                      </TableCell>
                     </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {top10users.map((u, i) => (
-                      <TableRow key={i}>
-                        <TableCell>{u.name}</TableCell>
-                        <TableCell className="font-extrabold text-center">
-                          {u.points}
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </div>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
         </main>
       </div>
     </>

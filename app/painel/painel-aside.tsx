@@ -4,6 +4,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { DashboardIcon } from "@radix-ui/react-icons";
 import {
   Book,
   Church,
@@ -33,7 +34,7 @@ export default function PainelAside() {
                 href="/painel"
                 className="flex h-9 w-9 items-center justify-center rounded-lg text-muted-foreground transition-colors hover:text-foreground md:h-8 md:w-8"
               >
-                <Home className="h-5 w-5" />
+                <DashboardIcon className="h-5 w-5" />
                 <span className="sr-only">Painel</span>
               </Link>
             </TooltipTrigger>

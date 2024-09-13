@@ -21,6 +21,7 @@ export default async function Layout({
   return (
     <html lang="pt-BR" suppressHydrationWarning>
       <body
+        suppressHydrationWarning
         className={cn(
           "flex min-h-screen w-full flex-col bg-muted/40",
           fontSans.className

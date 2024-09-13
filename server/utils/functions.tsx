@@ -1,3 +1,14 @@
+import { AlarmSmoke, Church } from "lucide-react";
+
+export const mapIcon = async (icon: string) => {
+  switch (icon) {
+    case "noviço":
+      return <Church />;
+    default:
+      return <AlarmSmoke />;
+  }
+};
+
 export const treatTestamentSlug = (slug: string) => {
   return slug.split("-")[0].toUpperCase();
 };

@@ -31,9 +31,22 @@ export const getGeneralInfo = async (user: ExtendUser) => {
       },
     },
   });
-  if (!chaptersNew || !chaptersOld || !versesOld || !versesNew)
+  if (
+    !chaptersNew ||
+    !chaptersOld ||
+    !versesOld ||
+    !versesNew ||
+    !userProgress.verseId
+  )
     return { error: "Não encontrado" };
   return {
-    success: { chaptersNew, chaptersOld, versesNew, versesOld, chaptersRead },
+    success: {
+      chaptersNew,
+      chaptersOld,
+      versesNew,
+      versesOld,
+      chaptersRead,
+      verseId: userProgress.verseId,
+    },
   };
 };
