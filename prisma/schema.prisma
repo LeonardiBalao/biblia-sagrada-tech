@@ -37,7 +37,6 @@ model User {
   ReadingProgress ReadingProgress[]
   Note            Note[]
   UserQuizz       UserQuizz[]
-  UserQuizzAnswer UserQuizzAnswer[]
 }
 
 model Account {
@@ -250,28 +249,17 @@ model Quizz {
   options       String[]
   difficulty    DIFFICULTY
 
-  createdAt       DateTime          @default(now())
-  updatedAt       DateTime          @updatedAt
-  UserQuizz       UserQuizz[]
-  UserQuizzAnswer UserQuizzAnswer[]
-  chapter         Chapter           @relation(fields: [chapterId], references: [id])
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  UserQuizz UserQuizz[]
+  chapter   Chapter     @relation(fields: [chapterId], references: [id])
 }
 
 model UserQuizz {
-  id         String @id @default(cuid())
+  id         String  @id @default(cuid())
   userId     String
   quizzId    String
-  userAnswer String
-
-  user  User  @relation(fields: [userId], references: [id])
-  quizz Quizz @relation(fields: [quizzId], references: [id])
-}
-
-model UserQuizzAnswer {
-  id      String @id @default(cuid())
-  userId  String
-  quizzId String
-  answer  String
+  userAnswer Boolean
 
   user  User  @relation(fields: [userId], references: [id])
   quizz Quizz @relation(fields: [quizzId], references: [id])

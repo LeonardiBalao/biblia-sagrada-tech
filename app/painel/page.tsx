@@ -79,10 +79,7 @@ export default async function Painel() {
                 Estudar a Bíblia
               </Button>
             </Link>
-            <Link
-              className="w-full md:w-min"
-              href={"/painel/estudo/biblia/velho-testamento/genesis-1/1"}
-            >
+            <Link className="w-full md:w-min" href={"/painel/estudo/quizz"}>
               <Button className="w-full flex gap-4">
                 <BicepsFlexed size={18} />
                 Quizzes
