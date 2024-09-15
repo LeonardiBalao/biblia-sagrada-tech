@@ -12,7 +12,7 @@ export const getVerses = async (verseIds: number[]) => {
           },
         },
       })
-    ).map((v) => ({ id: v.id, content: v.content }));
+    ).map((v) => ({ id: v.id, content: v.content, number: v.number }));
     if (!verses) return { error: "Versículos não encontrados." };
 
     return { success: verses };

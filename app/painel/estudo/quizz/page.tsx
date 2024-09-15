@@ -14,8 +14,6 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import LoadingButton from "@/components/structure/loading-button";
 
 export default async function EstudoBiblia() {

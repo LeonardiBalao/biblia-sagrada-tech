@@ -166,12 +166,13 @@ export default function Quizz({ quizz, user }: QuizzProps) {
           )}
         </CardFooter>
       </Card>
-      <Card>
-        <CardHeader></CardHeader>
+      <Card className="w-full md:max-w-sm">
+        <CardHeader>
+          <CardDescription>Dicas</CardDescription>
+        </CardHeader>
         <CardContent>
           <Dicas chapterId={quizz.chapterId} verseIds={quizz.verseIds} />
         </CardContent>
-        <CardFooter></CardFooter>
       </Card>
     </div>
   );

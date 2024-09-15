@@ -22,7 +22,13 @@ import {
 import { useEffect, useState } from "react";
 import { getChapterName } from "@/server/actions/get-chapter-name";
 import { getVerses } from "@/server/actions/get-verses";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface DicasProps {
   chapterId: number;
@@ -35,10 +41,12 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
   const [tip2IsOpen, setTip2IsOpen] = useState(false);
   const [chapter, setChapter] = useState("");
   const [verses, setVerses] = useState<
-    { id: number; content: string }[] | null
+    { id: number; content: string; number: number }[] | null
   >(null);
 
   useEffect(() => {
+    setTip1IsOpen(false);
+    setTip2IsOpen(false);
     const getInfo = async () => {
       const chapterName = await getChapterName(chapterId);
       setChapter(chapterName.success!);
@@ -46,14 +54,14 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
       setVerses(verses.success!);
     };
     getInfo();
-  }, []);
+  }, [chapterId, verseIds]);
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       <Collapsible
         open={tip1IsOpen}
         onOpenChange={setTip1IsOpen}
-        className="w-[350px] space-y-2"
+        className="w-full space-y-2"
       >
         <div className="flex items-center justify-between space-x-4 px-4">
           <h4 className="text-sm font-semibold">Capítulo Relacionado</h4>
@@ -65,18 +73,16 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent className="space-y-2">
-          <div className="rounded-md border px-4 py-2 font-mono text-sm shadow-sm">
-            {chapter}
-          </div>
+          <span className="pl-4 text-xs">{chapter}</span>
         </CollapsibleContent>
       </Collapsible>
       <Collapsible
         open={tip2IsOpen}
         onOpenChange={setTip2IsOpen}
-        className="w-[350px] space-y-2"
+        className="w-full space-y-2"
       >
         <div className="flex items-center justify-between space-x-4 px-4">
-          <h4 className="text-sm font-semibold">Versículos</h4>
+          <h4 className="text-sm font-semibold ">Versículos Relacionados</h4>
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm">
               <CaretSortIcon className="h-4 w-4" />
@@ -90,8 +96,18 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
               {verses?.map((v) => (
                 <CarouselItem key={v.id}>
                   <Card>
-                    <CardContent className="p-4">
-                      <p className="text-sm">{v.content}</p>
+                    <CardContent className="p-4 h-[200px] flex flex-col gap-4 px-4 shadow-2xl bg-secondary rounded-xl">
+                      <Badge
+                        variant={"outline"}
+                        className="text-center font-bold text-md mb-4 mx-auto rounded-full border-2"
+                      >
+                        {v.number}
+                      </Badge>
+                      <div>
+                        <p className="first-letter:text-3xl  text-sm xl first-letter:leading-tight first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:font-extrabold">
+                          {v.content}
+                        </p>
+                      </div>
                     </CardContent>
                   </Card>
                 </CarouselItem>

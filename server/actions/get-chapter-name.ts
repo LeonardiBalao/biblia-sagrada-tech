@@ -7,7 +7,6 @@ export const getChapterName = async (chapterId: number) => {
     const chapter = await prisma.chapter.findFirst({
       where: { id: chapterId },
     });
-    console.log(chapter);
     if (!chapter) return { error: "Capítulo não encontrado" };
     return { success: chapter.name };
   } catch (err: any) {
