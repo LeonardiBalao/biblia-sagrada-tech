@@ -16,6 +16,7 @@ import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import LoadingButton from "@/components/structure/loading-button";
 
 export default async function EstudoBiblia() {
   const session = await auth();
@@ -47,9 +48,11 @@ export default async function EstudoBiblia() {
                     <Separator />
                   </CardContent>
                   <CardFooter className="flex flex-col">
-                    <Link href={"/painel"}>
-                      <Button variant={"outline"}>Voltar para o painel</Button>
-                    </Link>
+                    <LoadingButton
+                      text="Voltar ao painel"
+                      href="/painel"
+                      loadingText="Redirecionando ao painel"
+                    />
                   </CardFooter>
                 </Card>
               )}

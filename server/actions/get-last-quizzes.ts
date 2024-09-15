@@ -6,7 +6,7 @@ export const getLastQuizzes = async (userId: string) => {
   try {
     let quizzQuestions = [];
     const lastQuizzes = await prisma.userQuizz.findMany({
-      take: 3,
+      take: 4,
       where: { userId },
     });
     if (lastQuizzes.length === 0)
