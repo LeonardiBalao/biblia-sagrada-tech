@@ -1,5 +1,13 @@
 import { AlarmSmoke, Church } from "lucide-react";
 
+export function createVerses(length: number, start: number): number[] {
+  return Array.from({ length }, (_, index) => start + index);
+}
+
+export function getRandomQuizz(length: number): number {
+  return Math.floor(Math.random() * length);
+}
+
 export const mapIcon = async (icon: string) => {
   switch (icon) {
     case "noviço":

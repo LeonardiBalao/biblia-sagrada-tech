@@ -1,4 +1,16 @@
-import { Book, ChartLine, Cross, Medal, Trophy } from "lucide-react";
+import {
+  BicepsFlexed,
+  Book,
+  ChartArea,
+  ChartLine,
+  Cross,
+  Forward,
+  Medal,
+  Puzzle,
+  RulerIcon,
+  ShieldQuestion,
+  Trophy,
+} from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -13,7 +25,10 @@ import {
 import PainelAside from "./painel-aside";
 import PainelNavbar from "./painel-navbar";
 import { getGeneralInfo } from "@/server/actions/get-general-info";
-import { QuestionMarkCircledIcon } from "@radix-ui/react-icons";
+import {
+  ExclamationTriangleIcon,
+  QuestionMarkCircledIcon,
+} from "@radix-ui/react-icons";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
 import { getTop10Users } from "@/server/actions/get-top-10-users";
@@ -28,6 +43,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Separator } from "@/components/ui/separator";
+import { Badge } from "@/components/ui/badge";
 
 export default async function Painel() {
   let top10users: LeaderboardUser[] = [];
@@ -52,57 +69,129 @@ export default async function Painel() {
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <PainelNavbar user={session.user} />
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-          <Link
-            className="w-full md:w-min"
-            href={"/painel/estudo/biblia/velho-testamento/genesis-1/1"}
-          >
-            <Button className="w-full flex gap-4">
-              <Book size={18} />
-              Estudar a Bíblia
-            </Button>
-          </Link>
-
+          <div className="flex gap-4">
+            <Link
+              className="w-full md:w-min"
+              href={"/painel/estudo/biblia/velho-testamento/genesis-1/1"}
+            >
+              <Button className="w-full flex gap-4">
+                <Book size={18} />
+                Estudar a Bíblia
+              </Button>
+            </Link>
+            <Link
+              className="w-full md:w-min"
+              href={"/painel/estudo/biblia/velho-testamento/genesis-1/1"}
+            >
+              <Button className="w-full flex gap-4">
+                <BicepsFlexed size={18} />
+                Quizzes
+              </Button>
+            </Link>
+          </div>
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-lg font-semibold">
-                  Velho testamento
+                  Meu Progresso
                 </CardTitle>
-                <Cross fill="gray" className="h-4 w-4 text-muted-foreground" />
+                <ChartArea
+                  color="blue"
+                  className="h-4 w-4 text-muted-foreground"
+                />
               </CardHeader>
-              <CardContent>
-                <div className="text-md font-bold">
-                  Capítulos lidos: {success?.chaptersRead}/
-                  {success?.chaptersOld}
+              <Separator />
+              <CardContent className="flex flex-col gap-4 mt-4">
+                <Badge
+                  variant={"secondary"}
+                  className="max-w-[200px] font-bold font-md"
+                >
+                  Velho Testamento
+                </Badge>
+                <div className="ml-4">
+                  <div className="text-sm font-semibold">
+                    Capítulos lidos: {success?.chaptersRead}/
+                    {success?.chaptersOld}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Versículos lidos: {success?.verseId! - 1}/{" "}
+                    {success?.versesOld.toLocaleString()}
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Versículos lidos: {success?.verseId! - 1}/{" "}
-                  {success?.versesOld.toLocaleString()}
-                </p>
+                <Badge
+                  variant={"secondary"}
+                  className="max-w-[200px] font-bold font-md"
+                >
+                  Novo Testamento
+                </Badge>
+                <div className="ml-4">
+                  <div className="text-md font-bold">
+                    Capítulos:{" "}
+                    {success?.chaptersRead! < 932
+                      ? 0
+                      : success?.chaptersRead! - 931}
+                    /{success?.chaptersNew}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Versículos:{" "}
+                    {success?.verseId! < 7943
+                      ? 0
+                      : (success?.verseId! - 7943).toLocaleString()}
+                    /{success?.versesNew.toLocaleString()}
+                  </p>
+                </div>
               </CardContent>
             </Card>
-            <Card x-chunk="dashboard-01-chunk-1">
+            <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-lg font-semibold">
-                  Novo testamento
+                  Últimos Quizzes
                 </CardTitle>
-                <Cross fill="gray" className="h-4 w-4 text-muted-foreground" />
+                <Forward
+                  fill="gray"
+                  className="h-4 w-4 text-muted-foreground"
+                />
               </CardHeader>
-              <CardContent>
-                <div className="text-md font-bold">
-                  Capítulos:{" "}
-                  {success?.chaptersRead! < 932
-                    ? 0
-                    : success?.chaptersRead! - 931}
-                  /{success?.chaptersNew}
+              <Separator />
+              <CardContent className="flex flex-col gap-4 mt-4">
+                <Badge
+                  variant={"secondary"}
+                  className="max-w-[200px] font-bold"
+                >
+                  Velho Testamento
+                </Badge>
+                <div className="ml-4">
+                  <div className="text-sm font-semibold">
+                    Capítulos lidos: {success?.chaptersRead}/
+                    {success?.chaptersOld}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Versículos lidos: {success?.verseId! - 1}/{" "}
+                    {success?.versesOld.toLocaleString()}
+                  </p>
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  Versículos:{" "}
-                  {success?.verseId! < 7943
-                    ? 0
-                    : (success?.verseId! - 7943).toLocaleString()}
-                  /{success?.versesNew.toLocaleString()}
-                </p>
+                <Badge
+                  variant={"secondary"}
+                  className="max-w-[200px] font-bold"
+                >
+                  Novo Testamento
+                </Badge>
+                <div className="ml-4">
+                  <div className="text-md font-bold">
+                    Capítulos:{" "}
+                    {success?.chaptersRead! < 932
+                      ? 0
+                      : success?.chaptersRead! - 931}
+                    /{success?.chaptersNew}
+                  </div>
+                  <p className="text-xs text-muted-foreground">
+                    Versículos:{" "}
+                    {success?.verseId! < 7943
+                      ? 0
+                      : (success?.verseId! - 7943).toLocaleString()}
+                    /{success?.versesNew.toLocaleString()}
+                  </p>
+                </div>
               </CardContent>
             </Card>
             <Card>
@@ -164,7 +253,7 @@ export default async function Painel() {
           </div>
           <Card x-chunk="dashboard-01-chunk-5">
             <CardHeader>
-              <CardTitle className="text-center">TOP 10</CardTitle>
+              <CardTitle className="text-center">TOP 10 USUÁRIOS</CardTitle>
             </CardHeader>
             <CardContent className="grid gap-8">
               <Table>

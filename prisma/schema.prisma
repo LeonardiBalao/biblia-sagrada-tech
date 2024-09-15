@@ -36,6 +36,8 @@ model User {
   Leaderboard     Leaderboard[]
   ReadingProgress ReadingProgress[]
   Note            Note[]
+  UserQuizz       UserQuizz[]
+  UserQuizzAnswer UserQuizzAnswer[]
 }
 
 model Account {
@@ -105,6 +107,7 @@ model Chapter {
   name         String
   abbreviation String
   Verses       Verse[]
+  Quizz        Quizz[]
 }
 
 model Verse {
@@ -229,4 +232,47 @@ model Leaderboard {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+enum DIFFICULTY {
+  FACIL
+  MODERADO
+  DIFICIL
+}
+
+model Quizz {
+  id            String     @id @default(cuid())
+  question      String
+  testament     TESTAMENT
+  chapterId     Int
+  verseIds      Int[]
+  correctAnswer String
+  options       String[]
+  difficulty    DIFFICULTY
+
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  UserQuizz       UserQuizz[]
+  UserQuizzAnswer UserQuizzAnswer[]
+  chapter         Chapter           @relation(fields: [chapterId], references: [id])
+}
+
+model UserQuizz {
+  id         String @id @default(cuid())
+  userId     String
+  quizzId    String
+  userAnswer String
+
+  user  User  @relation(fields: [userId], references: [id])
+  quizz Quizz @relation(fields: [quizzId], references: [id])
+}
+
+model UserQuizzAnswer {
+  id      String @id @default(cuid())
+  userId  String
+  quizzId String
+  answer  String
+
+  user  User  @relation(fields: [userId], references: [id])
+  quizz Quizz @relation(fields: [quizzId], references: [id])
 }
