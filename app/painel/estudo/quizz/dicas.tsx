@@ -57,13 +57,13 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
   }, [chapterId, verseIds]);
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 w-full">
       <Collapsible
         open={tip1IsOpen}
         onOpenChange={setTip1IsOpen}
         className="w-full space-y-2"
       >
-        <div className="flex items-center justify-between space-x-4 px-4">
+        <div className="flex items-center justify-between">
           <h4 className="text-sm font-semibold">Capítulo Relacionado</h4>
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm">
@@ -72,7 +72,7 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
             </Button>
           </CollapsibleTrigger>
         </div>
-        <CollapsibleContent className="space-y-2">
+        <CollapsibleContent className="space-y-2 w-full">
           <span className="pl-4 text-xs">{chapter}</span>
         </CollapsibleContent>
       </Collapsible>
@@ -81,7 +81,7 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
         onOpenChange={setTip2IsOpen}
         className="w-full space-y-2"
       >
-        <div className="flex items-center justify-between space-x-4 px-4">
+        <div className="flex items-center justify-between">
           <h4 className="text-sm font-semibold ">Versículos Relacionados</h4>
           <CollapsibleTrigger asChild>
             <Button variant="ghost" size="sm">
@@ -96,14 +96,14 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
               {verses?.map((v) => (
                 <CarouselItem key={v.id}>
                   <Card>
-                    <CardContent className="p-4 h-[200px] flex flex-col gap-4 px-4 shadow-2xl bg-secondary rounded-xl">
+                    <CardContent className="p-4 min-h-[240px] w-full flex flex-col gap-4 px-4 bg-secondary rounded-xl">
                       <Badge
                         variant={"outline"}
                         className="text-center font-bold text-md mb-4 mx-auto rounded-full border-2"
                       >
                         {v.number}
                       </Badge>
-                      <div>
+                      <div className="flex flex-wrap">
                         <p className="first-letter:text-3xl  text-sm xl first-letter:leading-tight first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:font-extrabold">
                           {v.content}
                         </p>
