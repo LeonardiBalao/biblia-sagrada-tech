@@ -16,18 +16,21 @@ import { Separator } from "@/components/ui/separator";
 import { setQuizzAnswer } from "@/server/actions/set-quizz-answer";
 import { ExtendUser } from "@/types/next-auth";
 import { type Quizz } from "@prisma/client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
-interface BibleProps {
+interface QuizzProps {
   quizz: Quizz;
   user: ExtendUser;
 }
 
-export default function Quizz({ quizz, user }: BibleProps) {
+export default function Quizz({ quizz, user }: QuizzProps) {
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [answer, setAnswer] = useState("");
   const [isAnswered, setIsAnswered] = useState(false);
+  const [nextQuizz, setNextQuizz] = useState(false);
 
   const handleSubmit = async () => {
     setIsAnswered(true);
@@ -37,12 +40,18 @@ export default function Quizz({ quizz, user }: BibleProps) {
       setLoading(false);
       return toast.error(error);
     }
+
     setLoading(false);
-    return toast.success(success);
+    toast.success(success);
   };
 
   const handleNext = async () => {
-    toast.success("Próxima pergunta");
+    setNextQuizz(true);
+    router.refresh();
+    return setTimeout(() => {
+      setIsAnswered(false);
+      setNextQuizz(false);
+    }, 800);
   };
 
   useEffect(() => {
@@ -63,53 +72,66 @@ export default function Quizz({ quizz, user }: BibleProps) {
         </div>
       </CardHeader>
       <CardContent className="flex flex-col gap-2">
-        <div className="mb-4">
-          <h3 className="font-bold font-lg mb-5">{quizz.question}</h3>
-          <RadioGroup
-            className="pl-2 flex flex-col gap-4 font-semibold"
-            onValueChange={(value) => {
-              setIsAnswered(false);
-              setAnswer(value);
-            }}
-          >
-            {quizz.options.map((o, i) => (
-              <div key={i} className={`flex items-center space-x-2`}>
-                <RadioGroupItem value={o} id={o} />
-                <Label
-                  htmlFor={o}
-                  className={`${
-                    o === answer && !isAnswered
-                      ? "font-bold animate-pulse text-blue-800"
-                      : ""
-                  } ${
-                    isAnswered && o === quizz.correctAnswer
-                      ? "font-bold animate-bounce bg-green-600 text-white p-1 rounded-lg"
-                      : ""
-                  } ${
-                    o === answer && isAnswered && o !== quizz.correctAnswer
-                      ? "font-bold bg-red-600 p-1 rounded-lg text-white"
-                      : ""
-                  } cursor-pointer`}
-                >
-                  {o}
-                </Label>
-              </div>
-            ))}
-          </RadioGroup>
-        </div>
-        <Badge
-          className="text-center flex justify-center"
-          variant={`${
-            quizz.difficulty === "FACIL"
-              ? "outline"
-              : quizz.difficulty === "MODERADO"
-              ? "secondary"
-              : "destructive"
-          }`}
-        >
-          {quizz.difficulty}
-        </Badge>
-        <Separator />
+        {!nextQuizz ? (
+          <>
+            <div className="mb-4">
+              <h3 className="font-bold font-lg mb-5">{quizz.question}</h3>
+              <RadioGroup
+                className="pl-2 flex flex-col gap-4 font-semibold"
+                disabled={isAnswered}
+                onValueChange={(value) => {
+                  setAnswer(value);
+                }}
+              >
+                {quizz.options.map((o, i) => (
+                  <div key={i} className={`flex items-center space-x-2`}>
+                    <RadioGroupItem value={o} id={o} />
+                    <Label
+                      htmlFor={o}
+                      className={`${
+                        o === answer && !isAnswered
+                          ? "font-bold animate-pulse text-blue-800"
+                          : ""
+                      } ${
+                        isAnswered && o === quizz.correctAnswer
+                          ? "font-bold animate-bounce bg-green-600 text-white p-1 rounded-lg"
+                          : ""
+                      } ${
+                        o === answer && isAnswered && o !== quizz.correctAnswer
+                          ? "font-bold bg-red-600 p-1 rounded-lg text-white"
+                          : ""
+                      } cursor-pointer`}
+                    >
+                      {o}
+                    </Label>
+                  </div>
+                ))}
+              </RadioGroup>
+            </div>
+            <Badge
+              className="text-center flex justify-center"
+              variant={`${
+                quizz.difficulty === "FACIL"
+                  ? "outline"
+                  : quizz.difficulty === "MODERADO"
+                  ? "secondary"
+                  : "destructive"
+              }`}
+            >
+              {quizz.difficulty === "FACIL"
+                ? "FÁCIL"
+                : quizz.difficulty === "MODERADO"
+                ? "MODERADA"
+                : "DIFÍCIL"}
+            </Badge>
+            <Separator />
+          </>
+        ) : (
+          <div className="min-w-[320px] flex flex-col justify-center items-center h-[200px]">
+            <div className="w-16 h-16 border-2 border-blue-200 rounded-full animate-spin border-t-transparent" />
+            Carregando...
+          </div>
+        )}
       </CardContent>
       <CardFooter className="flex flex-col">
         {loading ? (

@@ -57,7 +57,11 @@ export const setQuizzAnswer = async (
       },
     });
 
-    return { success: `Resposta correta, ${user.name}. + ${points} pontos!` };
+    return {
+      success: `Resposta correta, ${
+        user.name.split(" ")[0]
+      }. + ${points} pontos!`,
+    };
   } catch (err: any) {
     return { error: err.message };
   }

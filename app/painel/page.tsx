@@ -1,8 +1,12 @@
 import {
+  AlertCircle,
   BicepsFlexed,
   Book,
   ChartArea,
   ChartLine,
+  Check,
+  CheckCircle,
+  CircleX,
   Cross,
   Forward,
   Medal,
@@ -45,6 +49,7 @@ import {
 } from "@/components/ui/carousel";
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
+import { getLastQuizzes } from "@/server/actions/get-last-quizzes";
 
 export default async function Painel() {
   let top10users: LeaderboardUser[] = [];
@@ -56,6 +61,7 @@ export default async function Painel() {
     return redirect("/painel/configuracoes");
 
   const achievements = await getAchievements(session.user.id);
+  const lastQuizzes = await getLastQuizzes(session.user.id);
 
   const top10 = await getTop10Users();
   if (!top10) {
@@ -101,28 +107,27 @@ export default async function Painel() {
               <CardContent className="flex flex-col gap-4 mt-4">
                 <Badge
                   variant={"secondary"}
-                  className="max-w-[200px] font-bold font-md"
+                  className="font-bold font-md flex justify-center uppercase"
                 >
                   Velho Testamento
                 </Badge>
-                <div className="ml-4">
+                <div className="ml-4 flex flex-col items-center justify-center">
                   <div className="text-sm font-semibold">
-                    Capítulos lidos: {success?.chaptersRead}/
-                    {success?.chaptersOld}
+                    Capítulos: {success?.chaptersRead}/{success?.chaptersOld}
                   </div>
                   <p className="text-xs text-muted-foreground">
-                    Versículos lidos: {success?.verseId! - 1}/{" "}
+                    Versículos: {success?.verseId! - 1}/
                     {success?.versesOld.toLocaleString()}
                   </p>
                 </div>
                 <Badge
                   variant={"secondary"}
-                  className="max-w-[200px] font-bold font-md"
+                  className="font-bold font-md flex justify-center uppercase"
                 >
                   Novo Testamento
                 </Badge>
-                <div className="ml-4">
-                  <div className="text-md font-bold">
+                <div className="ml-4 flex flex-col items-center justify-center">
+                  <div className="text-sm font-bold">
                     Capítulos:{" "}
                     {success?.chaptersRead! < 932
                       ? 0
@@ -151,44 +156,32 @@ export default async function Painel() {
               </CardHeader>
               <Separator />
               <CardContent className="flex flex-col gap-4 mt-4">
-                <Badge
-                  variant={"secondary"}
-                  className="max-w-[200px] font-bold"
-                >
-                  Velho Testamento
-                </Badge>
-                <div className="ml-4">
-                  <div className="text-sm font-semibold">
-                    Capítulos lidos: {success?.chaptersRead}/
-                    {success?.chaptersOld}
+                {lastQuizzes.success?.map((q) => (
+                  <div
+                    key={q.id}
+                    className={`text-xs font-bold flex gap-2 items-center`}
+                  >
+                    {q.answer ? (
+                      <CheckCircle color="green" size={17} />
+                    ) : (
+                      <CircleX color="red" size={17} />
+                    )}
+                    {q.question}
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Versículos lidos: {success?.verseId! - 1}/{" "}
-                    {success?.versesOld.toLocaleString()}
-                  </p>
-                </div>
-                <Badge
-                  variant={"secondary"}
-                  className="max-w-[200px] font-bold"
-                >
-                  Novo Testamento
-                </Badge>
-                <div className="ml-4">
-                  <div className="text-md font-bold">
-                    Capítulos:{" "}
-                    {success?.chaptersRead! < 932
-                      ? 0
-                      : success?.chaptersRead! - 931}
-                    /{success?.chaptersNew}
+                ))}
+                {lastQuizzes.error && (
+                  <div className="flex flex-col gap-4 justify-between items-center mt-5">
+                    <div className="flex gap-2 items-center">
+                      <AlertCircle color="orange" />
+                      <span className="text-sm">{lastQuizzes.error}</span>
+                    </div>
+                    <Link href={"/painel/estudo/quizz"}>
+                      <Button variant={"link"} className="underline">
+                        Ir para Quizzes
+                      </Button>
+                    </Link>
                   </div>
-                  <p className="text-xs text-muted-foreground">
-                    Versículos:{" "}
-                    {success?.verseId! < 7943
-                      ? 0
-                      : (success?.verseId! - 7943).toLocaleString()}
-                    /{success?.versesNew.toLocaleString()}
-                  </p>
-                </div>
+                )}
               </CardContent>
             </Card>
             <Card>
