@@ -35,11 +35,15 @@ export function ChapterComboBox({ chapters, testament }: ChapterComboBoxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    if (value === "")
+      return toast.error("Digite um capítulo ou selecione um abaixo.");
     toast.success(`Indo para ${value}`);
-    router.push(
-      `/biblia/${testament.toLowerCase()}-testamento/${generateSlug(value)}`
-    );
+    setTimeout(() => {
+      router.push(
+        `/biblia/${testament.toLowerCase()}-testamento/${generateSlug(value)}`
+      );
+    }, 1000);
   };
 
   return (
@@ -53,7 +57,7 @@ export function ChapterComboBox({ chapters, testament }: ChapterComboBoxProps) {
             aria-expanded={open}
             className="w-[200px] justify-between text-xs"
           >
-            {value ? value : "Digite o capitulo"}
+            {value ? value : "Digite ou clique abaixo"}
             <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
         </PopoverTrigger>
@@ -91,7 +95,7 @@ export function ChapterComboBox({ chapters, testament }: ChapterComboBoxProps) {
         variant={"outline"}
         size={"sm"}
         text="Ir"
-        icon={<Search />}
+        icon={<Search size={18} />}
         action={handleSubmit}
       />
     </div>

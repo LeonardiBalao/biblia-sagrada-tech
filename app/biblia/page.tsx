@@ -28,8 +28,8 @@ export default async function BibleIndex() {
             <div className="flex gap-4 flex-wrap">
               <Card>
                 <CardHeader>
-                  <CardTitle>Biblia Sagrada</CardTitle>
-                  <CardDescription>Índice</CardDescription>
+                  <CardTitle className={"text-xl"}>Biblia Sagrada</CardTitle>
+                  <CardDescription>Índice de capítulos</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Tabs defaultValue="velho" className="w-[320px]">
@@ -46,7 +46,7 @@ export default async function BibleIndex() {
                         />
                       </div>
                       <Separator />
-                      <div className="grid grid-cols-2 gap-2 place-items-center mt-4">
+                      <div className="grid grid-cols-2 gap-1 place-items-center mt-4">
                         {allChapters.success?.old.map((c) => (
                           <Link
                             key={c.id}
@@ -55,7 +55,7 @@ export default async function BibleIndex() {
                             <Button
                               variant={"outline"}
                               size={"sm"}
-                              className="text-xs"
+                              className="text-xs w-40 whitespace-pre-wrap"
                             >
                               {c.name[0] +
                                 c.name
@@ -77,16 +77,17 @@ export default async function BibleIndex() {
                         />
                       </div>
                       <Separator />
-                      <div className="grid grid-cols-2 gap-2 place-items-center mt-4">
+                      <div className="grid grid-cols-2 gap-1 place-items-center mt-4">
                         {allChapters.success?.new.map((c) => (
                           <Link
+                            className="w-full"
                             key={c.id}
                             href={`/biblia/novo-testamento/${c.slug}`}
                           >
                             <Button
                               variant={"outline"}
                               size={"sm"}
-                              className="text-xs w-40"
+                              className="text-xs w-40 whitespace-pre-wrap"
                             >
                               {c.name[0] +
                                 c.name

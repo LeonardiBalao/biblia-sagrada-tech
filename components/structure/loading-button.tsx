@@ -40,7 +40,8 @@ export default function LoadingButton({
   const handleSubmit = async () => {
     setLoading(true);
     if (action) {
-      return action();
+      action();
+      return setTimeout(() => setLoading(false), 1000);
     }
     if (href) {
       setTimeout(() => {
@@ -51,7 +52,12 @@ export default function LoadingButton({
 
   if (loading) {
     return (
-      <Button className="flex gap-4 max-w-min" variant={"outline"}>
+      <Button
+        className={`flex gap-4 ${
+          className?.includes("w-full") ? "w-full" : "max-w-min"
+        }`}
+        variant={"outline"}
+      >
         <div className="w-4 h-4 border-2 border-blue-200 rounded-full animate-spin border-t-transparent" />
         {loadingText}
       </Button>
@@ -59,7 +65,9 @@ export default function LoadingButton({
   } else {
     return (
       <Button
-        className={`max-w-min flex gap-4 ${className}`}
+        className={`${
+          !className?.includes("w-full") && "max-w-min"
+        }  flex gap-2 ${className}`}
         onClick={handleSubmit}
         size={size !== undefined ? size : "default"}
         variant={variant}
