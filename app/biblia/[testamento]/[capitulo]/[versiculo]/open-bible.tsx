@@ -5,41 +5,35 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { toast } from "sonner";
-import Note from "./note";
-import { setUserProgress } from "@/server/actions/set-user-progress";
 import { useRouter } from "next/navigation";
 import { ExtendUser } from "@/types/next-auth";
 import { useEffect, useState } from "react";
+import { Verse } from "@prisma/client";
 
 interface BibleProps {
-  progress: UserProgress;
-  user: ExtendUser;
+  page:
+    | {
+        testament: string;
+        chapter: string;
+        verses: Verse[];
+      }
+    | undefined;
+  user: ExtendUser | undefined;
 }
 
-export default function Bible({ progress, user }: BibleProps) {
-  const timer = 9;
+export default function OpenBible({ page, user }: BibleProps) {
+  const timer = 7;
   const [seconds, setSeconds] = useState(timer);
   const [loading, setLoading] = useState(false);
   const [reading, setReading] = useState(true);
   const router = useRouter();
   const handleSubmit = async () => {
     setLoading(true);
-    const { success, error } = await setUserProgress(progress, user);
-    if (error) return toast.error(error);
-    toast.success(success!.message);
-    if (success?.newAchievement) {
-      toast.message(`😀 Nova conquista!	${success.newAchievement.name}`, {
-        description: success.newAchievement.description,
-      });
-    }
-    router.push(`/painel/estudo/biblia/${success!.url}`);
     return setTimeout(() => setLoading(false), 2000);
   };
 
@@ -60,12 +54,12 @@ export default function Bible({ progress, user }: BibleProps) {
     <Card className="max-w-sm">
       <CardHeader>
         <CardTitle className="text-xl text-center font-serif bg-secondary py-2">
-          {progress.testament} TESTAMENTO
+          {page?.testament} TESTAMENTO
         </CardTitle>
         <Separator />
         <div className="w-full flex justify-center py-4 items-center">
           <Badge variant={"secondary"} className="text-md shadow-lg">
-            {progress.chapterName}
+            {page?.chapter}
           </Badge>
         </div>
       </CardHeader>
@@ -76,15 +70,14 @@ export default function Bible({ progress, user }: BibleProps) {
               variant={"outline"}
               className="text-center font-bold text-md mb-4 mx-auto rounded-full border-2"
             >
-              {progress.verses[0].number}
+              {page?.verses[0].number}
             </Badge>
-            <Note verse={progress.verses[0]} progress={progress} />
           </div>
           <p className="first-letter:text-4xl first-letter:leading-tight first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:font-extrabold">
-            {progress.verses[0].content}
+            {page?.verses[0].content}
           </p>
         </div>
-        {progress.verses.slice(1).map((v) => (
+        {page?.verses.slice(1).map((v) => (
           <div key={v.number} className="mb-2">
             <div className="w-full flex justify-center">
               <Badge
@@ -93,7 +86,6 @@ export default function Bible({ progress, user }: BibleProps) {
               >
                 {v.number}
               </Badge>
-              <Note verse={v} progress={progress} />
             </div>
             <p className="first-letter:text-4xl first-letter:leading-tight first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:font-extrabold">
               {v.content}
@@ -115,7 +107,7 @@ export default function Bible({ progress, user }: BibleProps) {
           >
             {reading
               ? "Leitura"
-              : progress.verses.length === 3
+              : page?.verses.length === 3
               ? "Próxima página"
               : "Próximo capítulo"}
 
