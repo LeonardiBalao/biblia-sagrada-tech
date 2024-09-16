@@ -1,12 +1,7 @@
-import PainelAside from "@/app/painel/painel-aside";
-import PainelNavbar from "@/app/painel/painel-navbar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import { getUserProgress } from "@/server/actions/get-user-progress";
 import { auth } from "@/server/auth";
-import { redirect } from "next/navigation";
-import { treatTestamentSlug } from "@/server/utils/functions";
 import Navbar from "@/components/structure/navbar";
-import { getBiblePage } from "@/server/actions/get-bible-page";
 import {
   Card,
   CardContent,
@@ -14,17 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getAllChapters } from "@/server/actions/get-all-chapters";
+import { ChapterComboBox } from "./chapter-combobox";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
-interface PropertiesProps {
-  params: {
-    testamento: string;
-    capitulo: string;
-    versiculo: string;
-  };
-}
-
-export default async function BibleOptions({ params }: PropertiesProps) {
+export default async function BibleIndex() {
   const session = await auth();
+  const allChapters = await getAllChapters();
 
   return (
     <>
@@ -38,7 +31,76 @@ export default async function BibleOptions({ params }: PropertiesProps) {
                   <CardTitle>Biblia Sagrada</CardTitle>
                   <CardDescription>Índice</CardDescription>
                 </CardHeader>
-                <CardContent></CardContent>
+                <CardContent>
+                  <Tabs defaultValue="velho" className="w-[320px]">
+                    <TabsList>
+                      <TabsTrigger value="velho">Velho Testamento</TabsTrigger>
+                      <TabsTrigger value="novo">Novo Testamento</TabsTrigger>
+                    </TabsList>
+                    <TabsContent value="velho">
+                      <Separator />
+                      <div className="w-full flex justify-center my-4">
+                        <ChapterComboBox
+                          chapters={allChapters.success?.old}
+                          testament={allChapters.success?.old[0].testament!}
+                        />
+                      </div>
+                      <Separator />
+                      <div className="grid grid-cols-2 gap-2 place-items-center mt-4">
+                        {allChapters.success?.old.map((c) => (
+                          <Link
+                            key={c.id}
+                            href={`/biblia/velho-testamento/${c.slug}`}
+                          >
+                            <Button
+                              variant={"outline"}
+                              size={"sm"}
+                              className="text-xs"
+                            >
+                              {c.name[0] +
+                                c.name
+                                  .split("")
+                                  .slice(1)
+                                  .join("")
+                                  .toLowerCase()}
+                            </Button>
+                          </Link>
+                        ))}
+                      </div>
+                    </TabsContent>
+                    <TabsContent value="novo">
+                      <Separator />
+                      <div className="w-full flex justify-center my-4">
+                        <ChapterComboBox
+                          chapters={allChapters.success?.new}
+                          testament={allChapters.success?.new[0].testament!}
+                        />
+                      </div>
+                      <Separator />
+                      <div className="grid grid-cols-2 gap-2 place-items-center mt-4">
+                        {allChapters.success?.new.map((c) => (
+                          <Link
+                            key={c.id}
+                            href={`/biblia/novo-testamento/${c.slug}`}
+                          >
+                            <Button
+                              variant={"outline"}
+                              size={"sm"}
+                              className="text-xs w-40"
+                            >
+                              {c.name[0] +
+                                c.name
+                                  .split("")
+                                  .slice(1)
+                                  .join("")
+                                  .toLowerCase()}
+                            </Button>
+                          </Link>
+                        ))}
+                      </div>
+                    </TabsContent>
+                  </Tabs>
+                </CardContent>
               </Card>
             </div>
           </div>

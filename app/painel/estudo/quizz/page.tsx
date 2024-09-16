@@ -49,7 +49,7 @@ export default async function EstudoBiblia() {
                     <LoadingButton
                       text="Voltar ao painel"
                       href="/painel"
-                      loadingText="Redirecionando ao painel"
+                      loadingText="Redirecionando"
                     />
                   </CardFooter>
                 </Card>

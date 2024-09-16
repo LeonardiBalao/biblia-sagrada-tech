@@ -1,7 +1,6 @@
 import React from "react";
 import { Container } from "./container";
-import { Button } from "../ui/button";
-import Link from "next/link";
+import LoadingButton from "./loading-button";
 
 export const Cta = () => {
   return (
@@ -16,14 +15,13 @@ export const Cta = () => {
           </p>
         </div>
         <div className="flex-shrink-0 w-full text-center lg:w-auto">
-          <Link href="/auth/login">
-            <Button
-              size={"lg"}
-              className="bg-white text-black hover:bg-gray-200"
-            >
-              Comece Sua Jornada!
-            </Button>
-          </Link>
+          <LoadingButton
+            href="/auth/login"
+            className="bg-white text-black hover:bg-gray-200"
+            size={"lg"}
+            loadingText="Carregando"
+            text="Comece Sua Jornada!"
+          />
         </div>
       </div>
     </Container>

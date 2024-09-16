@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import Bible from "@/public/img/bible.jpg";
 import { AspectRatio } from "../ui/aspect-ratio";
+import LoadingButton from "./loading-button";
 
 export const Hero = () => {
   return (
@@ -20,9 +21,11 @@ export const Hero = () => {
             </p>
 
             <div className="flex flex-col items-start space-y-3 sm:space-x-4 sm:space-y-0 sm:items-center sm:flex-row">
-              <Link href={"/auth/login"}>
-                <Button size={"lg"}>Comecar Minha Jornada</Button>
-              </Link>
+              <LoadingButton
+                href="/auth/login"
+                loadingText="Carregando"
+                text="Começar Minha Jornada"
+              />
             </div>
           </div>
         </div>

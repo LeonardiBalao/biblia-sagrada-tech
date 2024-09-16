@@ -50,6 +50,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { Badge } from "@/components/ui/badge";
 import { getLastQuizzes } from "@/server/actions/get-last-quizzes";
+import LoadingButton from "@/components/structure/loading-button";
 
 export default async function Painel() {
   let top10users: LeaderboardUser[] = [];
@@ -76,21 +77,20 @@ export default async function Painel() {
         <PainelNavbar user={session.user} />
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
           <div className="flex gap-4">
-            <Link
-              className="w-full md:w-min"
-              href={"/painel/estudo/biblia/velho-testamento/genesis-1/1"}
-            >
-              <Button className="w-full flex gap-4 animate-pulse">
-                <Book size={18} />
-                Estudar a Bíblia
-              </Button>
-            </Link>
-            <Link className="w-full md:w-min" href={"/painel/estudo/quizz"}>
-              <Button className="w-full flex gap-4 animate-pulse">
-                <BicepsFlexed size={18} />
-                Quizzes
-              </Button>
-            </Link>
+            <LoadingButton
+              icon={<Book />}
+              text="Estudar a Bíblia"
+              href="/painel/estudo/biblia/velho-testamento/genesis-1/1"
+              className="animate-pulse"
+              loadingText="Carregando"
+            />
+            <LoadingButton
+              icon={<BicepsFlexed />}
+              text="Quizz"
+              href="/painel/estudo/quizz"
+              className="animate-pulse"
+              loadingText="Carregando"
+            />
           </div>
           <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card x-chunk="dashboard-01-chunk-0">
@@ -149,8 +149,8 @@ export default async function Painel() {
                 <CardTitle className="text-lg font-semibold">
                   Últimos Quizzes
                 </CardTitle>
-                <Forward
-                  fill="gray"
+                <QuestionMarkCircledIcon
+                  color="blue"
                   className="h-4 w-4 text-muted-foreground"
                 />
               </CardHeader>
@@ -191,7 +191,8 @@ export default async function Painel() {
                 </CardTitle>
                 <Trophy fill="gold" className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
-              <CardContent>
+              <Separator />
+              <CardContent className="mx-auto my-auto">
                 <Carousel className="cursor-pointer">
                   <CarouselContent className="p-4">
                     {achievements.success?.length ? (
@@ -203,7 +204,7 @@ export default async function Painel() {
                         .map((a) => (
                           <CarouselItem
                             key={a.id}
-                            className="border rounded-lg p-4 text-sm flex flex-col items-center justify-center gap-2 bg-secondary mr-2"
+                            className="border w-full rounded-lg p-4 text-sm flex flex-col items-center justify-center gap-2 bg-secondary mr-2"
                           >
                             <div className="font-bold">{a.name}</div>
                             <div>{mapIcon(a.icon)}</div>
@@ -220,10 +221,9 @@ export default async function Painel() {
                             href={
                               "/painel/estudo/biblia/velho-testamento/genesis-1/1"
                             }
-                            className="w-full"
                           >
-                            <Button variant={"secondary"} className="w-full">
-                              Estudar
+                            <Button variant={"link"} className="underline">
+                              Ir para Quizzes
                             </Button>
                           </Link>
                         </div>
