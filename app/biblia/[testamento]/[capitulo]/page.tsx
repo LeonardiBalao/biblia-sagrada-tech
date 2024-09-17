@@ -43,9 +43,7 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
             <div className="flex gap-4 flex-wrap">
               <Card className="max-w-xs">
                 <CardHeader>
-                  <CardTitle>
-                    Versículos de {verses.success.chapterName}
-                  </CardTitle>
+                  <CardTitle>{verses.success.chapterName}</CardTitle>
                   <CardDescription>
                     {verses.success.verses.length} versículos
                   </CardDescription>

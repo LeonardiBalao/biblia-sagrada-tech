@@ -41,7 +41,11 @@ export function VersesTabs({ verses }: VersesTabsProps) {
                 </Badge>
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-2">{v.content}</CardContent>
+            <CardContent className="space-y-2">
+              <p className="first-letter:text-4xl first-letter:leading-tight first-letter:float-left first-letter:mr-2 first-letter:font-serif first-letter:font-extrabold">
+                {v.content}
+              </p>
+            </CardContent>
             <CardFooter>
               <LoadingButton
                 className="w-full"

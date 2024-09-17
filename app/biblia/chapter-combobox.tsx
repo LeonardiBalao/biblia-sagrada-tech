@@ -47,7 +47,7 @@ export function ChapterComboBox({ chapters, testament }: ChapterComboBoxProps) {
   };
 
   return (
-    <div className="flex gap-4">
+    <div className="flex gap-2">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -65,7 +65,7 @@ export function ChapterComboBox({ chapters, testament }: ChapterComboBoxProps) {
           <Command>
             <CommandInput placeholder="Digite..." className="h-9 text-xs" />
             <CommandList>
-              <CommandEmpty>No framework found.</CommandEmpty>
+              <CommandEmpty>Capítulo não encontrado.</CommandEmpty>
               <CommandGroup>
                 {chapters?.map((c) => (
                   <CommandItem

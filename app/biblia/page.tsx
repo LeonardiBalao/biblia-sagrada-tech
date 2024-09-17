@@ -14,6 +14,7 @@ import { ChapterComboBox } from "./chapter-combobox";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { processString } from "@/server/utils/functions";
 
 export default async function BibleIndex() {
   const session = await auth();
@@ -22,20 +23,24 @@ export default async function BibleIndex() {
   return (
     <>
       <Navbar user={session?.user} />
-      <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
+      <div className="flex flex-col pl-0 sm:gap-4 sm:py-4 sm:pl-14">
         <main className="grid flex-1 items-start gap-4 p-4 sm:px-6 sm:py-0 md:gap-8">
           <div className="mx-auto grid max-w-[59rem] flex-1 auto-rows-max gap-4">
             <div className="flex gap-4 flex-wrap">
-              <Card>
+              <Card className="max-w-xs">
                 <CardHeader>
                   <CardTitle className={"text-xl"}>Biblia Sagrada</CardTitle>
                   <CardDescription>Índice de capítulos</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Tabs defaultValue="velho" className="w-[320px]">
+                  <Tabs defaultValue="velho">
                     <TabsList>
-                      <TabsTrigger value="velho">Velho Testamento</TabsTrigger>
-                      <TabsTrigger value="novo">Novo Testamento</TabsTrigger>
+                      <TabsTrigger className="text-xs" value="velho">
+                        Velho Testamento
+                      </TabsTrigger>
+                      <TabsTrigger className="text-xs" value="novo">
+                        Novo Testamento
+                      </TabsTrigger>
                     </TabsList>
                     <TabsContent value="velho">
                       <Separator />
@@ -55,14 +60,9 @@ export default async function BibleIndex() {
                             <Button
                               variant={"outline"}
                               size={"sm"}
-                              className="text-xs w-40 whitespace-pre-wrap"
+                              className="text-xs w-32 whitespace-pre-wrap h-auto py-2"
                             >
-                              {c.name[0] +
-                                c.name
-                                  .split("")
-                                  .slice(1)
-                                  .join("")
-                                  .toLowerCase()}
+                              {processString(c.name)}
                             </Button>
                           </Link>
                         ))}
@@ -80,21 +80,15 @@ export default async function BibleIndex() {
                       <div className="grid grid-cols-2 gap-1 place-items-center mt-4">
                         {allChapters.success?.new.map((c) => (
                           <Link
-                            className="w-full"
                             key={c.id}
                             href={`/biblia/novo-testamento/${c.slug}`}
                           >
                             <Button
                               variant={"outline"}
                               size={"sm"}
-                              className="text-xs w-40 whitespace-pre-wrap"
+                              className="text-xs w-32 whitespace-pre-wrap h-auto py-2"
                             >
-                              {c.name[0] +
-                                c.name
-                                  .split("")
-                                  .slice(1)
-                                  .join("")
-                                  .toLowerCase()}
+                              {processString(c.name)}
                             </Button>
                           </Link>
                         ))}

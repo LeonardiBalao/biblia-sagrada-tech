@@ -13,7 +13,15 @@ export const getAllChapters = async () => {
       orderBy: { id: "asc" },
     });
     if (!chaptersOld) return { error: "Nenhum capítulo encontrado." };
+    let array = chaptersOld.map((c) => c.name);
+    // Remove numbers and brackets
+    const cleanedChapters = array.map((chapter) =>
+      chapter.replace(/\s*\[\d+\]/, "")
+    );
+    // Get unique chapter names
+    const uniqueChapters = Array.from(new Set(cleanedChapters));
 
+    console.log(uniqueChapters);
     const chaptersNew = await prisma.chapter.findMany({
       where: {
         testament: "NOVO",

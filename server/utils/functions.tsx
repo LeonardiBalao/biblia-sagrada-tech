@@ -1,5 +1,37 @@
 import { AlarmSmoke, Church } from "lucide-react";
 
+export function processString(input: string) {
+  // Split the input string into parts
+  let parts = input.split(" ");
+
+  // Process each part
+  for (let i = 0; i < parts.length; i++) {
+    if (
+      i === 0 &&
+      (parts[0] === "I" ||
+        parts[0] === "II" ||
+        parts[0] === "III" ||
+        parts[0] === "IV" ||
+        parts[0] === "V")
+    ) {
+      parts[0] = parts[0].toUpperCase();
+    } else if (
+      parts[i] === "DE" &&
+      parts[i] === "DO" &&
+      parts[i] === "DOS" &&
+      parts[i] === "DAS"
+    ) {
+      // Lowercase the words in the middle, except "DE" and "DO"
+      parts[i] = parts[i].toLowerCase();
+    } else {
+      parts[i] = parts[i][0] + parts[i].slice(1).toLowerCase();
+    }
+  }
+
+  // Join the parts back into a single string
+  return parts.join(" ");
+}
+
 export function createVerses(length: number, start: number): number[] {
   return Array.from({ length }, (_, index) => start + index);
 }
