@@ -2,12 +2,12 @@
 
 import prisma from "../db";
 
-export const getChapterVerses = async (chapterSlug: string) => {
+export const getChapterVerses = async (slug: string) => {
   try {
     const verses = await prisma.verse.findMany({
       where: {
         chapter: {
-          slug: chapterSlug,
+          slug: slug,
         },
       },
       orderBy: {

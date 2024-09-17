@@ -1,12 +1,6 @@
-import PainelAside from "@/app/painel/painel-aside";
-import PainelNavbar from "@/app/painel/painel-navbar";
-
-import { getUserProgress } from "@/server/actions/get-user-progress";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
-import { treatTestamentSlug } from "@/server/utils/functions";
 import Navbar from "@/components/structure/navbar";
-import { getBiblePage } from "@/server/actions/get-bible-page";
 import { getChapterVerses } from "@/server/actions/get-chapter-verses";
 import {
   Card,
@@ -15,8 +9,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { VersesTabs } from "./verses-tabs";
 import { Separator } from "@/components/ui/separator";
+import { getSlugChapters } from "@/server/actions/get-slug-chapters";
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  getNumbersFromString,
+  processString,
+  removeChapterNumbers,
+} from "@/server/utils/functions";
 
 interface PropertiesProps {
   params: {
@@ -30,9 +31,8 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
   const { testamento, capitulo } = params;
   const session = await auth();
 
-  const verses = await getChapterVerses(capitulo);
-
-  if (verses.error || !verses.success) return redirect("/biblia");
+  const chapters = await getSlugChapters(capitulo);
+  if (chapters.error || !chapters.success) return redirect("/biblia");
 
   return (
     <>
@@ -43,14 +43,31 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
             <div className="flex gap-4 flex-wrap">
               <Card className="max-w-xs">
                 <CardHeader>
-                  <CardTitle>{verses.success.chapterName}</CardTitle>
+                  <CardTitle>
+                    {removeChapterNumbers(chapters.success[0].name)}
+                  </CardTitle>
                   <CardDescription>
-                    {verses.success.verses.length} versículos
+                    {chapters.success.length} Capítulos
                   </CardDescription>
                 </CardHeader>
                 <Separator />
                 <CardContent>
-                  <VersesTabs verses={verses.success.verses} />
+                  <div className="grid grid-cols-6 gap-3 place-items-center mt-4">
+                    {chapters.success?.map((c, i) => (
+                      <Link
+                        key={c.id}
+                        href={`/biblia/novo-testamento/${capitulo}/${c.slug}`}
+                      >
+                        <Button
+                          variant={"outline"}
+                          size={"sm"}
+                          className="text-md whitespace-pre-wrap h-auto py-2"
+                        >
+                          {getNumbersFromString(c.name)}
+                        </Button>
+                      </Link>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             </div>

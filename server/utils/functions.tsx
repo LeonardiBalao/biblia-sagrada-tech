@@ -1,5 +1,31 @@
 import { AlarmSmoke, Church } from "lucide-react";
 
+export const removeChapterNumbers = (str: string) => {
+  return str.replace(/\s*\[\d+\]/, "");
+};
+
+export const getNumbersFromString = (str: string) => {
+  return str.match(/\d+/g);
+};
+export const cleanChapters = (array: string[]) => {
+  const newArray = array.map((chapter) => {
+    let cleaned = chapter
+      .split(" ")
+      .filter(
+        (word) =>
+          word !== "I" &&
+          word !== "II" &&
+          word !== "III" &&
+          word !== "IV" &&
+          word !== "V"
+      )
+      .join(" ");
+
+    return cleaned.replace(/\s*\[\d+\]/, "");
+  });
+  return newArray;
+};
+
 export function processString(input: string) {
   // Split the input string into parts
   let parts = input.split(" ");

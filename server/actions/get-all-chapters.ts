@@ -1,27 +1,28 @@
 "use server";
 
-import { Chapter } from "@prisma/client";
 import prisma from "../db";
+import { cleanChapters } from "../utils/functions";
 
 export const getAllChapters = async () => {
   try {
-    const regex = /^[^\s]+/;
+    // OLD CHAPTERS
     const chaptersOld = await prisma.chapter.findMany({
       where: {
         testament: "VELHO",
       },
       orderBy: { id: "asc" },
     });
-    if (!chaptersOld) return { error: "Nenhum capítulo encontrado." };
-    let array = chaptersOld.map((c) => c.name);
-    // Remove numbers and brackets
-    const cleanedChapters = array.map((chapter) =>
-      chapter.replace(/\s*\[\d+\]/, "")
-    );
-    // Get unique chapter names
-    const uniqueChapters = Array.from(new Set(cleanedChapters));
 
-    console.log(uniqueChapters);
+    if (!chaptersOld) return { error: "Nenhum capítulo encontrado." };
+
+    let oldChaptersNames = chaptersOld.map((c) => c.name);
+
+    // Remove numbers and brackets
+    const cleanedOld = cleanChapters(oldChaptersNames);
+
+    const uniqueOldChapters = Array.from(new Set(cleanedOld));
+
+    // NEW CHAPTERS
     const chaptersNew = await prisma.chapter.findMany({
       where: {
         testament: "NOVO",
@@ -30,7 +31,18 @@ export const getAllChapters = async () => {
     });
     if (!chaptersNew) return { error: "Nenhum capítulo encontrado." };
 
-    return { success: { old: chaptersOld, new: chaptersNew } };
+    let newChaptersName = chaptersNew.map((c) => c.name);
+
+    // Remove numbers and brackets
+    const cleanedNew = cleanChapters(newChaptersName);
+    const uniqueNewChapters = Array.from(new Set(cleanedNew));
+
+    return {
+      success: {
+        old: { chaptersOld, uniqueOldChapters },
+        new: { chaptersNew, uniqueNewChapters },
+      },
+    };
   } catch (err: any) {
     return { error: err.message };
   }

@@ -14,7 +14,7 @@ import { ChapterComboBox } from "./chapter-combobox";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { processString } from "@/server/utils/functions";
+import { generateSlug, processString } from "@/server/utils/functions";
 
 export default async function BibleIndex() {
   const session = await auth();
@@ -46,52 +46,64 @@ export default async function BibleIndex() {
                       <Separator />
                       <div className="w-full flex justify-center my-4">
                         <ChapterComboBox
-                          chapters={allChapters.success?.old}
-                          testament={allChapters.success?.old[0].testament!}
+                          chapters={allChapters.success?.old.chaptersOld}
+                          testament={
+                            allChapters.success?.old.chaptersOld[0].testament!
+                          }
                         />
                       </div>
                       <Separator />
                       <div className="grid grid-cols-2 gap-1 place-items-center mt-4">
-                        {allChapters.success?.old.map((c) => (
-                          <Link
-                            key={c.id}
-                            href={`/biblia/velho-testamento/${c.slug}`}
-                          >
-                            <Button
-                              variant={"outline"}
-                              size={"sm"}
-                              className="text-xs w-32 whitespace-pre-wrap h-auto py-2"
+                        {allChapters.success?.old.uniqueOldChapters.map(
+                          (c, i) => (
+                            <Link
+                              key={i}
+                              href={`/biblia/velho-testamento/${generateSlug(
+                                c
+                              )}`}
                             >
-                              {processString(c.name)}
-                            </Button>
-                          </Link>
-                        ))}
+                              <Button
+                                variant={"outline"}
+                                size={"sm"}
+                                className="text-xs w-32 whitespace-pre-wrap h-auto py-2"
+                              >
+                                {processString(c)}
+                              </Button>
+                            </Link>
+                          )
+                        )}
                       </div>
                     </TabsContent>
                     <TabsContent value="novo">
                       <Separator />
                       <div className="w-full flex justify-center my-4">
                         <ChapterComboBox
-                          chapters={allChapters.success?.new}
-                          testament={allChapters.success?.new[0].testament!}
+                          chapters={allChapters.success?.new.chaptersNew}
+                          testament={
+                            allChapters.success?.new.chaptersNew[0].testament!
+                          }
                         />
                       </div>
                       <Separator />
                       <div className="grid grid-cols-2 gap-1 place-items-center mt-4">
-                        {allChapters.success?.new.map((c) => (
-                          <Link
-                            key={c.id}
-                            href={`/biblia/novo-testamento/${c.slug}`}
-                          >
-                            <Button
-                              variant={"outline"}
-                              size={"sm"}
-                              className="text-xs w-32 whitespace-pre-wrap h-auto py-2"
+                        {allChapters.success?.new.uniqueNewChapters.map(
+                          (c, i) => (
+                            <Link
+                              key={i}
+                              href={`/biblia/novo-testamento/${generateSlug(
+                                c
+                              )}`}
                             >
-                              {processString(c.name)}
-                            </Button>
-                          </Link>
-                        ))}
+                              <Button
+                                variant={"outline"}
+                                size={"sm"}
+                                className="text-xs w-32 whitespace-pre-wrap h-auto py-2"
+                              >
+                                {processString(c)}
+                              </Button>
+                            </Link>
+                          )
+                        )}
                       </div>
                     </TabsContent>
                   </Tabs>
