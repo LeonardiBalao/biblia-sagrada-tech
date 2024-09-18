@@ -17,6 +17,9 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { VersesTabs } from "./verses-tabs";
+import { getChaptersAmount } from "@/server/actions/get-chapters-amount";
+import { ArrowLeft, ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
+import { NextRequest } from "next/server";
 
 interface PropertiesProps {
   params: {
@@ -31,6 +34,7 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
   const session = await auth();
 
   const verses = await getChapterVerses(chapterSlug);
+  const chaptersAmount = await getChaptersAmount(capitulo);
 
   if (verses.error || !verses.success) return redirect("/biblia");
 
@@ -43,8 +47,21 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
             <div className="flex gap-4 flex-wrap">
               <Card className="max-w-xs">
                 <CardHeader>
-                  <CardTitle>{verses.success.chapterName}</CardTitle>
-                  <CardDescription>
+                  <CardTitle>
+                    <div className="flex gap-4 justify-between">
+                      <div>
+                        <ArrowLeftCircle size={21} className="cursor-pointer" />
+                      </div>
+                      <div>{verses.success.chapterName}</div>
+                      <div>
+                        <ArrowRightCircle
+                          size={21}
+                          className="cursor-pointer"
+                        />
+                      </div>
+                    </div>
+                  </CardTitle>
+                  <CardDescription className="text-center">
                     {verses.success.verses.length} versículos
                   </CardDescription>
                 </CardHeader>

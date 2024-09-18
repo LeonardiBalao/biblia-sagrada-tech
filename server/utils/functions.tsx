@@ -9,19 +9,19 @@ export const getNumbersFromString = (str: string) => {
 };
 export const cleanChapters = (array: string[]) => {
   const newArray = array.map((chapter) => {
-    let cleaned = chapter
-      .split(" ")
-      .filter(
-        (word) =>
-          word !== "I" &&
-          word !== "II" &&
-          word !== "III" &&
-          word !== "IV" &&
-          word !== "V"
-      )
-      .join(" ");
+    // let cleaned = chapter
+    //   .split(" ")
+    //   .filter(
+    //     (word) =>
+    //       word !== "I" &&
+    //       word !== "II" &&
+    //       word !== "III" &&
+    //       word !== "IV" &&
+    //       word !== "V"
+    //   )
+    //   .join(" ");
 
-    return cleaned.replace(/\s*\[\d+\]/, "");
+    return chapter.replace(/\s*\[\d+\]/, "");
   });
   return newArray;
 };
