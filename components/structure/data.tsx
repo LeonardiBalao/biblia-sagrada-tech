@@ -15,7 +15,7 @@ import benefitOneImg from "@/public/landing-page/benefit-zero.jpg";
 import benefitTwoImg from "@/public/landing-page/benefit-one.jpg";
 
 const benefitOne = {
-  title: "Experiência completa e envolvente com várias funcionalidades:",
+  title: "Experiência completa e envolvente com várias funcionalidades",
   desc: "Estude a Bíblia de um jeito diferente e engajante",
   image: benefitOneImg,
   bullets: [
@@ -26,7 +26,7 @@ const benefitOne = {
     },
     {
       title: "Gamificação",
-      desc: "Acumule pontos, conquiste medalhas e veja seu progresso.",
+      desc: "Acumule pontos, conquiste medalhas e salve seu progresso.",
       icon: <MedalIcon />,
     },
     {

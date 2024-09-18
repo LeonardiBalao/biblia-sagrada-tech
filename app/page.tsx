@@ -5,11 +5,13 @@ import { benefitOne, benefitTwo } from "@/components/structure/data";
 import { Faq } from "@/components/structure/faq";
 import { Footer } from "@/components/structure/footer";
 import { Hero } from "@/components/structure/hero";
+import { MissaoVisaoValores } from "@/components/structure/missao-visao-valores";
 import Navbar from "@/components/structure/navbar";
 import { SectionTitle } from "@/components/structure/section-title";
 import { Testimonials } from "@/components/structure/testimonials";
 import { Video } from "@/components/structure/video";
 import { auth } from "@/server/auth";
+import { ArrowDownCircle } from "lucide-react";
 
 export default async function Home() {
   const session = await auth();
@@ -18,9 +20,23 @@ export default async function Home() {
       <Navbar user={session?.user} />
       <Container>
         <Hero />
-        <SectionTitle preTitle="Benefícios" title="Por que nos escolher?">
-          Leitura intuitiva e envolvente da Bíblia, com gamificação, doações
-          sociais e uma interface amigável para todos os usuários.
+        <ArrowDownCircle
+          size={38}
+          className=" md:hidden mx-auto -mt-28"
+          color="purple"
+        />
+        <SectionTitle
+          preTitle="Desafio, Missão e Impacto"
+          title="Em um tempo onde a tecnologia e a espiritualidade raramente se cruzavam"
+        >
+          Imagine um mundo onde a leitura da Bíblia não é apenas uma prática
+          espiritual, mas uma jornada envolvente e interativa.
+        </SectionTitle>
+        <MissaoVisaoValores />
+
+        <SectionTitle preTitle="Benefícios" title="Por que?">
+          Acreditamos que a leitura da Bíblia pode ser uma experiência
+          envolvente e gratificante
         </SectionTitle>
 
         <Benefits data={benefitOne} />

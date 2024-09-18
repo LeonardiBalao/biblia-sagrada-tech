@@ -1,51 +1,55 @@
 import Image from "next/image";
 import React from "react";
 
-import userOneImg from "@/public/img/user1.jpg";
-import userTwoImg from "@/public/img/user2.jpg";
-import userThreeImg from "@/public/img/user3.jpg";
 import { Container } from "./container";
+import { Separator } from "../ui/separator";
 
-export const Testimonials = () => {
+export const MissaoVisaoValores = () => {
   return (
     <Container>
       <div className="grid gap-10 lg:grid-cols-2 xl:grid-cols-3">
         <div className="lg:col-span-2 xl:col-auto">
           <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-gray-800">
-            <p className="text-2xl leading-normal ">
-              A Bíblia Sagrada Tech tornou meu estudo bíblico{" "}
-              <Mark> divertido</Mark> e <Mark>envolvente</Mark>!
+            <h2 className="font-bold text-2xl mb-4">Desafio</h2>
+            <p className="text-md leading-normal">
+              Devotos, estudantes de teologia e jovens enfrentam
+              <Mark>dificuldades</Mark> em manter o{" "}
+              <u>hábito de leitura da Bíblia</u>.
             </p>
-
-            <Avatar image={userOneImg} name="Maria Silva" title="Designer" />
+            <Separator className="my-4 border-2" />
+            <p className="text-lg leading-normal">
+              Foi aí que percebemos a <b>necessidade</b> de algo novo, algo que
+              pudesse
+              <Mark>transformar a experiência</Mark> de leitura da Bíblia.
+            </p>
           </div>
         </div>
         <div className="">
           <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-gray-800">
-            <p className="text-2xl leading-normal ">
-              Ganhar pontos e desbloquear conquistas me <Mark>motiva</Mark> a
-              ler mais a Bíblia!
+            <h2 className="font-bold text-2xl">Visão</h2>
+            <p className="text-lg leading-normal">
+              Simples, mas <Mark>poderosa</Mark>
             </p>
-
-            <Avatar
-              image={userTwoImg}
-              name="João Pedro"
-              title="Auxiliar de enfermagem"
-            />
+            <Separator className="my-4 border-2" />
+            <p className="text-xl leading-normal">
+              <b>Promover</b> a leitura e o estudo das escrituras de forma{" "}
+              <u>organizada, intuitiva e envolvente</u>.
+            </p>
           </div>
         </div>
         <div className="">
           <div className="flex flex-col justify-between w-full h-full bg-gray-100 px-14 rounded-2xl py-14 dark:bg-gray-800">
-            <p className="text-2xl leading-normal ">
-              Organizar estudos bíblicos nunca foi tão <Mark>fácil</Mark> e{" "}
-              <Mark>interativo</Mark>!
+            <h2 className="font-bold text-2xl mb-4">Impacto</h2>
+            <p className="text-md leading-normal ">
+              Parte das contribuições recebidas é destinada a doações para
+              causas sociais, apoiando comunidades carentes e programas
+              educacionais.
             </p>
-
-            <Avatar
-              image={userThreeImg}
-              name="Gabriel Tadeu"
-              title="Estudante de Direito"
-            />
+            <Separator className="my-4 border-2" />
+            <p className="mt-2 text-lg leading-normal">
+              Cada leitura, cada quiz, cada conquista,
+              <Mark>contribui para um mundo melhor.</Mark>
+            </p>
           </div>
         </div>
       </div>

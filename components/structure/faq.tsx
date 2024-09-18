@@ -31,13 +31,12 @@ export const Faq = () => {
 const faqdata = [
   {
     question: "Como faço para contribuir?",
-    answer:
-      "Simples, basta enviar um pix para bibliasagradatech@gmail.com. Agradecemos imensamente a sua contribuição.",
+    answer: "Simples, basta enviar um pix para bibliasagradatech@gmail.com.",
   },
   {
-    question: "O aplicativo é inteiro gratuito?",
+    question: "O aplicativo é gratuito?",
     answer:
-      "Sim, o aplicativo é 100% gratuitomas depende de contribuições para se manter, visto que o custo de mantê-lo no ar é bem alto. Caso nós os usuários não contribuam o suficiente, pode ser que se torne pago.",
+      "Sim, o aplicativo é 100% gratuito e depende de contribuições para se manter, visto que o custo de mantê-lo no ar é alto.",
   },
   {
     question: "Posso compartilhar?",
