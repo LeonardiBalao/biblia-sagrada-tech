@@ -1,12 +1,6 @@
-import PainelAside from "@/app/painel/painel-aside";
-import PainelNavbar from "@/app/painel/painel-navbar";
-
-import { getUserProgress } from "@/server/actions/get-user-progress";
 import { auth } from "@/server/auth";
 import { redirect } from "next/navigation";
-import { treatTestamentSlug } from "@/server/utils/functions";
 import Navbar from "@/components/structure/navbar";
-import { getBiblePage } from "@/server/actions/get-bible-page";
 import { getChapterVerses } from "@/server/actions/get-chapter-verses";
 import {
   Card,
@@ -18,8 +12,8 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { VersesTabs } from "./verses-tabs";
 import { getChaptersAmount } from "@/server/actions/get-chapters-amount";
-import { ArrowLeft, ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
-import { NextRequest } from "next/server";
+import NextChapter from "./next-chapter";
+import PreviousChapter from "./previous-chapter";
 
 interface PropertiesProps {
   params: {
@@ -50,14 +44,13 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
                   <CardTitle>
                     <div className="flex gap-4 justify-between">
                       <div>
-                        <ArrowLeftCircle size={21} className="cursor-pointer" />
+                        <PreviousChapter
+                          chaptersAmount={chaptersAmount.success!}
+                        />
                       </div>
                       <div>{verses.success.chapterName}</div>
                       <div>
-                        <ArrowRightCircle
-                          size={21}
-                          className="cursor-pointer"
-                        />
+                        <NextChapter chaptersAmount={chaptersAmount.success!} />
                       </div>
                     </div>
                   </CardTitle>

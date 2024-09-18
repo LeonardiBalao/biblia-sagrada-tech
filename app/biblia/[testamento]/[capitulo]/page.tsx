@@ -18,6 +18,7 @@ import {
   processString,
   removeChapterNumbers,
 } from "@/server/utils/functions";
+import { Label } from "@/components/ui/label";
 
 interface PropertiesProps {
   params: {
@@ -46,12 +47,14 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
                   <CardTitle>
                     {removeChapterNumbers(chapters.success[0].name)}
                   </CardTitle>
-                  <CardDescription>
-                    {chapters.success.length} Capítulos
-                  </CardDescription>
                 </CardHeader>
                 <Separator />
                 <CardContent>
+                  <div className="mt-4">
+                    <Label className="font-semibold text-md">
+                      Selecione um capítulo
+                    </Label>
+                  </div>
                   <div className="grid grid-cols-6 gap-3 place-items-center mt-4">
                     {chapters.success?.map((c, i) => (
                       <Link

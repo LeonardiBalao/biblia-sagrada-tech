@@ -1,5 +1,8 @@
+"use client";
+
 import LoadingButton from "@/components/structure/loading-button";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,20 +12,25 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Verse } from "@prisma/client";
+import { ArrowLeft, ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
+import { useState } from "react";
 
 interface VersesTabsProps {
   verses: Verse[];
 }
 
 export function VersesTabs({ verses }: VersesTabsProps) {
+  const [tabValue, setTabValue] = useState("1");
+
   return (
-    <Tabs defaultValue="1" className="mt-4">
+    <Tabs value={tabValue} className="mt-4">
       <TabsList className="flex flex-wrap bg-transparent h-auto">
         {verses.map((v) => (
           <TabsTrigger
             className="w-6 bg-secondary m-1"
             key={v.number}
             value={v.number.toString()}
+            onClick={() => setTabValue(v.number.toString())}
           >
             {v.number}
           </TabsTrigger>
@@ -46,12 +54,51 @@ export function VersesTabs({ verses }: VersesTabsProps) {
                 {v.content}
               </p>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="flex flex-col gap-2 justify-center">
+              <div className="mb-4">
+                <Button
+                  className="rounded-full border-0 shadow-2xl"
+                  variant={"outline"}
+                  size={"sm"}
+                  disabled={parseInt(tabValue) <= 1 ? true : false}
+                  onClick={() =>
+                    setTabValue((e: string) => {
+                      let previousVerse = parseInt(e) - 1;
+                      if (!(previousVerse === 0)) {
+                        return previousVerse.toString();
+                      } else {
+                        return e;
+                      }
+                    })
+                  }
+                >
+                  <ArrowLeftCircle />
+                </Button>
+                <Button
+                  className="rounded-full border-0 shadow-2xl"
+                  variant={"outline"}
+                  size={"sm"}
+                  disabled={parseInt(tabValue) >= verses.length ? true : false}
+                  onClick={() =>
+                    setTabValue((e: string) => {
+                      let nextVerse = parseInt(e) + 1;
+                      if (!(nextVerse >= verses.length)) {
+                        return nextVerse.toString();
+                      } else {
+                        return e;
+                      }
+                    })
+                  }
+                >
+                  <ArrowRightCircle />
+                </Button>
+              </div>
               <LoadingButton
-                className="w-full"
-                text="Voltar para o índice"
+                text="Capítulos"
                 href="/biblia"
                 loadingText="Carregando"
+                icon={<ArrowLeft size={14} />}
+                className="w-full"
               />
             </CardFooter>
           </Card>
