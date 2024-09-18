@@ -57,7 +57,7 @@ export default function PainelAside() {
             <TooltipContent side="right">Estudo</TooltipContent>
           </Tooltip>
         </TooltipProvider>
-        <TooltipProvider>
+        {/* <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
@@ -84,8 +84,8 @@ export default function PainelAside() {
             </TooltipTrigger>
             <TooltipContent side="right">Classificação</TooltipContent>
           </Tooltip>
-        </TooltipProvider>
-        <TooltipProvider>
+        </TooltipProvider> */}
+        {/* <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
@@ -98,7 +98,7 @@ export default function PainelAside() {
             </TooltipTrigger>
             <TooltipContent side="right">Estatísticas</TooltipContent>
           </Tooltip>
-        </TooltipProvider>
+        </TooltipProvider> */}
       </nav>
       <nav className="mt-auto flex flex-col items-center gap-4 px-2 py-4">
         <TooltipProvider>

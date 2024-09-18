@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { getNote } from "@/server/actions/get.note";
 import { setNote } from "@/server/actions/set-note";
 import { type Note } from "@prisma/client";
-import { NotebookPen } from "lucide-react";
+import { NotebookPen, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 
@@ -52,7 +52,7 @@ export default function Note({ className, progress, verse }: NoteProps) {
     <div className={cn("mt-1", className)}>
       <Dialog>
         <DialogTrigger>
-          <NotebookPen color={"blue"} size={21} />
+          <Pencil color={"blue"} size={21} />
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>

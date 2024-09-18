@@ -79,13 +79,13 @@ export default function PainelNavbar({ user }: PainelNavbarProps) {
               <Package className="h-5 w-5" />
               Estudo
             </Link>
-            <Link
+            {/* <Link
               href="/painel/classificacao"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
             >
               <Users2 className="h-5 w-5" />
               Classificação
-            </Link>
+            </Link> */}
             <Link
               href="/painel/configuracoes"
               className="flex items-center gap-4 px-2.5 text-muted-foreground hover:text-foreground"
@@ -124,39 +124,41 @@ export default function PainelNavbar({ user }: PainelNavbarProps) {
         </BreadcrumbList>
       </Breadcrumb>
       <ThemeButtons className="" />
-      <div className="relative ml-auto flex-1 md:grow-0 flex gap-4">
+      {/* <div className="relative ml-auto flex-1 md:grow-0 flex gap-4">
         <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
         <Input
           type="search"
           placeholder="Pesquisar..."
           className="w-full rounded-lg bg-background pl-8 md:w-[200px] lg:w-[320px]"
         />
-      </div>
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="icon"
-            className="overflow-hidden rounded-full"
-          >
-            <Image
-              src={user.image}
-              width={36}
-              height={36}
-              alt="Avatar"
+      </div> */}
+      <div className="ml-auto">
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="icon"
               className="overflow-hidden rounded-full"
-            />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem>Meu perfil</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>Suporte</DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href={"/auth/logout"}>Logout</Link>
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+            >
+              <Image
+                src={user.image}
+                width={36}
+                height={36}
+                alt="Avatar"
+                className="overflow-hidden rounded-full"
+              />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem>Meu perfil</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem>Suporte</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Link href={"/auth/logout"}>Logout</Link>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </div>
     </header>
   );
 }

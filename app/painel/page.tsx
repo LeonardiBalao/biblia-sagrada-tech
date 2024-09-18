@@ -30,6 +30,8 @@ import PainelAside from "./painel-aside";
 import PainelNavbar from "./painel-navbar";
 import { getGeneralInfo } from "@/server/actions/get-general-info";
 import {
+  Cross1Icon,
+  Cross2Icon,
   ExclamationTriangleIcon,
   QuestionMarkCircledIcon,
 } from "@radix-ui/react-icons";
@@ -76,23 +78,30 @@ export default async function Painel() {
       <div className="flex flex-col sm:gap-4 sm:py-4 sm:pl-14">
         <PainelNavbar user={session.user} />
         <main className="flex flex-1 flex-col gap-4 p-4 md:gap-8 md:p-8">
-          <div className="flex gap-4">
+          <div className="flex gap-4 justify-around md:justify-start">
             <LoadingButton
-              icon={<Book />}
-              text="Estudar a Bíblia"
+              icon={<Book size={21} />}
+              text="Estudar"
               href="/painel/estudo/biblia/velho-testamento/genesis-1/1"
               className="animate-pulse"
               loadingText="Carregando"
             />
             <LoadingButton
-              icon={<BicepsFlexed />}
+              icon={<BicepsFlexed size={21} />}
               text="Quizz"
               href="/painel/estudo/quizz"
               className="animate-pulse"
               loadingText="Carregando"
             />
+            <LoadingButton
+              icon={<Cross size={21} />}
+              text="Bíblia"
+              href="/biblia"
+              className="animate-pulse"
+              loadingText="Carregando"
+            />
           </div>
-          <div className="grid gap-4 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
+          <div className="grid gap-2 md:grid-cols-2 md:gap-8 lg:grid-cols-4">
             <Card x-chunk="dashboard-01-chunk-0">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-lg font-semibold">
@@ -177,7 +186,7 @@ export default async function Painel() {
                     </div>
                     <Link href={"/painel/estudo/quizz"}>
                       <Button variant={"link"} className="underline">
-                        Ir para Quizzes
+                        Responder Quizzes
                       </Button>
                     </Link>
                   </div>
@@ -215,15 +224,20 @@ export default async function Painel() {
                         ))
                     ) : (
                       <CarouselItem>
-                        <div className="flex flex-col gap-4">
-                          <p>Ganhar minha primeira conquista</p>
+                        <div className="flex flex-col gap-4 justify-between items-center mt-5">
+                          <div className="flex gap-2 items-center">
+                            <AlertCircle color="orange" />
+                            <span className="text-sm">
+                              Você ainda não começou seus estudos
+                            </span>
+                          </div>
                           <Link
                             href={
                               "/painel/estudo/biblia/velho-testamento/genesis-1/1"
                             }
                           >
                             <Button variant={"link"} className="underline">
-                              Ir para Quizzes
+                              Começar estudo
                             </Button>
                           </Link>
                         </div>
@@ -241,7 +255,7 @@ export default async function Painel() {
               </CardContent>
             </Card>
           </div>
-          <Card x-chunk="dashboard-01-chunk-5">
+          <Card x-chunk="dashboard-01-chunk-5" className="max-w-screen-md">
             <CardHeader>
               <CardTitle className="text-center">TOP 10 USUÁRIOS</CardTitle>
             </CardHeader>
