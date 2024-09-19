@@ -33,68 +33,24 @@ export async function generateMetadata({
   searchParams,
 }: PropertiesProps): Promise<Metadata> {
   const { testamento, capitulo, chapterSlug } = params;
-  const chapterVerses = await prisma.chapter.findFirst({
+  const chapter = await prisma.chapter.findFirst({
     where: { slug: chapterSlug },
-    include: { Verses: true },
   });
-  if (!chapterVerses) {
-    console.log("deu merda");
-    return {
-      title: `BIBLIA SAGRADA TECH`,
-      description: `O Melhor site de biblia online portuguesa do mundo`,
-      keywords: [
-        "Bíblia",
-        "Escrituras",
-        "Antigo Testamento",
-        "Evangelho",
-        "Salmos",
-        "Profetas",
-        "Apóstolos",
-        `www.bibliasagrada.tech`,
-        "bibliasagrada.tech",
-        "Biblia Sagrada",
-        "Biblia Online",
-      ],
-      viewport: "width=device-width, initial-scale=1.0",
-      robots: {
-        index: true,
-        follow: true,
-        googleBot: {
-          index: true,
-          follow: true,
-          "max-video-preview": -1,
-          "max-image-preview": "large",
-          "max-snippet": -1,
-        },
-      },
-      authors: [
-        {
-          name: "Biblia Sagrada Tech",
-          url: "https://www.bibliasagrada.tech",
-        },
-      ],
-      openGraph: {
-        images: [
-          {
-            url: "/img/pray.jpg",
-            width: 800,
-            height: 600,
-            alt: "Descrição da imagem",
-          },
-        ],
-      },
-    };
-  }
-  const verse = chapterVerses?.Verses.filter(
-    (v) => v.number === parseInt(searchParams.versiculo)
-  );
+
+  const verse = await prisma.verse.findMany({
+    where: {
+      id: chapter!.id,
+    },
+  });
+
   return {
-    title: `${chapterVerses?.testament} TESTAMENTO - ${chapterVerses?.name}`,
+    title: `${chapter?.testament} TESTAMENTO - ${chapter?.name}`,
     description: `${verse[0].content}`,
     keywords: [
-      `${chapterVerses?.name} Versículo ${searchParams.versiculo}`,
-      `${chapterVerses?.name}`,
-      `Capítulo ${chapterVerses?.name}`,
+      `${chapter?.name} Versículo ${searchParams.versiculo}`,
+      `${chapter?.name}`,
+      `${verse.filter((v) => v.number === parseInt(searchParams.versiculo))}`,
+      `Capítulo ${chapter?.name}`,
       `Versículo ${searchParams.versiculo}`,
       "Bíblia",
       "Escrituras",
@@ -103,8 +59,8 @@ export async function generateMetadata({
       "Salmos",
       "Profetas",
       "Apóstolos",
-      `${chapterVerses?.testament} Testamento`,
-      `${chapterVerses?.name} Capítulo ${capitulo}`,
+      `${chapter?.testament} Testamento`,
+      `${chapter?.name} Capítulo ${capitulo}`,
       `www.bibliasagrada.tech`,
       "bibliasagrada.tech",
       "Biblia Sagrada",
