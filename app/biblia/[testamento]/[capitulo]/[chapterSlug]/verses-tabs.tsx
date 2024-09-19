@@ -112,7 +112,7 @@ export function VersesTabs({ verses }: VersesTabsProps) {
                 </Button>
               </div>
               <LoadingButton
-                text="Capítulos"
+                text="Voltar"
                 href="/biblia"
                 loadingText="Carregando"
                 icon={<ArrowLeft size={14} />}
