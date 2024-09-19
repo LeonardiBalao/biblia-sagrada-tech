@@ -24,6 +24,7 @@ export default function PreviousChapter({
       setLoading(false);
       return toast.error("Este é o primeiro capítulo.");
     }
+    console.log(path);
     setTimeout(() => setLoading(false), 2000);
     return router.push(
       path.replace(currentChapter.toString(), (currentChapter - 1).toString())

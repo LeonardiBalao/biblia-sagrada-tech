@@ -36,10 +36,12 @@ export async function generateMetadata({
   const chapter = await prisma.chapter.findFirst({
     where: { slug: chapterSlug },
   });
-
+  let versiculo = !searchParams.versiculo
+    ? 1
+    : parseInt(searchParams.versiculo);
   const verse = await prisma.verse.findFirst({
     where: {
-      number: parseInt(searchParams.versiculo),
+      number: versiculo,
     },
   });
 
