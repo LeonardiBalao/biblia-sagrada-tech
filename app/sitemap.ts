@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   return verseChapters.map((verse) => ({
     url: `${BASE_URL}/biblia/${verse.chapter.testament.toLocaleLowerCase()}-testamento/${generateSlug(
       removeChapterNumbers(verse.chapter.name)
-    )}/${verse.chapter.slug}&versiculo=${verse.number}`,
+    )}/${verse.chapter.slug}?versiculo=${verse.number}`,
     lastModified: new Date().toISOString(),
   }));
 }
