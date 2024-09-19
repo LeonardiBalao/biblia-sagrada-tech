@@ -22,7 +22,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       removeChapterNumbers(verse.chapter.name)
     )}/${verse.chapter.slug}?versiculo=${verse.number}`,
     lastModified: new Date().toISOString(),
-    changefreq: "monthly",
+    changeFrequency: "monthly",
     priority: 0.6,
   }));
 }
