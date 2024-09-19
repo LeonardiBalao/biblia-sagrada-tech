@@ -56,7 +56,17 @@ export async function generateMetadata({
         "Biblia Online",
       ],
       viewport: "width=device-width, initial-scale=1.0",
-      robots: "index, follow",
+      robots: {
+        index: true,
+        follow: true,
+        googleBot: {
+          index: true,
+          follow: true,
+          "max-video-preview": -1,
+          "max-image-preview": "large",
+          "max-snippet": -1,
+        },
+      },
       authors: [
         {
           name: "Biblia Sagrada Tech",
@@ -101,7 +111,17 @@ export async function generateMetadata({
       "Biblia Online",
     ],
     viewport: "width=device-width, initial-scale=1.0",
-    robots: "index, follow",
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        "max-video-preview": -1,
+        "max-image-preview": "large",
+        "max-snippet": -1,
+      },
+    },
     authors: [
       {
         name: "Biblia Sagrada Tech",
