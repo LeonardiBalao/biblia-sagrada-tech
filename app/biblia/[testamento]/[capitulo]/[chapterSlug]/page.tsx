@@ -55,6 +55,24 @@ export async function generateMetadata({
         "Biblia Sagrada",
         "Biblia Online",
       ],
+      viewport: "width=device-width, initial-scale=1.0",
+      robots: "index, follow",
+      authors: [
+        {
+          name: "Biblia Sagrada Tech",
+          url: "https://www.bibliasagrada.tech",
+        },
+      ],
+      openGraph: {
+        images: [
+          {
+            url: "/img/pray.jpg",
+            width: 800,
+            height: 600,
+            alt: "Descrição da imagem",
+          },
+        ],
+      },
     };
   }
   const verse = chapterVerses?.Verses.filter(
@@ -82,6 +100,24 @@ export async function generateMetadata({
       "Biblia Sagrada",
       "Biblia Online",
     ],
+    viewport: "width=device-width, initial-scale=1.0",
+    robots: "index, follow",
+    authors: [
+      {
+        name: "Biblia Sagrada Tech",
+        url: "https://www.bibliasagrada.tech",
+      },
+    ],
+    openGraph: {
+      images: [
+        {
+          url: "/img/pray.jpg",
+          width: 800,
+          height: 600,
+          alt: "Biblia Sagrada Tech",
+        },
+      ],
+    },
   };
 }
 
