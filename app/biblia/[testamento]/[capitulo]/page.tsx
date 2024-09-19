@@ -59,7 +59,7 @@ export default async function EstudoBiblia({ params }: PropertiesProps) {
                     {chapters.success?.map((c, i) => (
                       <Link
                         key={c.id}
-                        href={`/biblia/novo-testamento/${capitulo}/${c.slug}`}
+                        href={`/biblia/novo-testamento/${capitulo}/${c.slug}?versiculo=1`}
                       >
                         <Button
                           variant={"outline"}
