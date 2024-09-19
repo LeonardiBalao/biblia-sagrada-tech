@@ -36,7 +36,6 @@ import prisma from "../db";
 //         },
 //       },
 //     });
-//     console.log(newId.id);
 //   }
 // };
 
@@ -62,8 +61,6 @@ const resetVerseNumber = async (chapterId: number) => {
         number: i,
       },
     });
-
-    console.log(newV.number);
   }
 };
 

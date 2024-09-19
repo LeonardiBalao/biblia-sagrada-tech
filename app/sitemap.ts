@@ -10,13 +10,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const BASE_URL = "https://www.bibliasagrada.tech";
 
   // Fetch all products
-  const chapters = await prisma.chapter.findMany();
+  const verseChapters = await prisma.verse.findMany({
+    include: {
+      chapter: true,
+    },
+  });
 
   // Map through the products to create the sitemap entries
-  return chapters.map((chapter) => ({
-    url: `${BASE_URL}/biblia/${chapter.testament.toLocaleLowerCase()}-testamento/${generateSlug(
-      removeChapterNumbers(chapter.name)
-    )}/${chapter.slug}`,
+  return verseChapters.map((verse) => ({
+    url: `${BASE_URL}/biblia/${verse.chapter.testament.toLocaleLowerCase()}-testamento/${generateSlug(
+      removeChapterNumbers(verse.chapter.name)
+    )}/${verse.chapter.slug}?versiculo-${verse.number}`,
     lastModified: new Date().toISOString(),
   }));
 }

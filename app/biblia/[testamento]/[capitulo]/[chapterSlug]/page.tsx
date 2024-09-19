@@ -14,12 +14,54 @@ import { VersesTabs } from "./verses-tabs";
 import { getChaptersAmount } from "@/server/actions/get-chapters-amount";
 import NextChapter from "./next-chapter";
 import PreviousChapter from "./previous-chapter";
+import { Metadata, ResolvingMetadata } from "next";
+import prisma from "@/server/db";
 
 interface PropertiesProps {
   params: {
     testamento: string;
     capitulo: string;
     chapterSlug: string;
+  };
+  searchParams: {
+    versiculo: string;
+  };
+}
+
+export async function generateMetadata({
+  params,
+  searchParams,
+}: PropertiesProps): Promise<Metadata> {
+  const { testamento, capitulo, chapterSlug } = params;
+  const chapterVerses = await prisma.chapter.findFirst({
+    where: { slug: chapterSlug },
+    include: { Verses: true },
+  });
+  const verse = chapterVerses?.Verses.filter(
+    (v) => v.number === parseInt(searchParams.versiculo)
+  );
+  return {
+    title: `${chapterVerses?.testament} TESTAMENTO - ${chapterVerses?.name}`,
+    description: verse ? verse[0].content : "",
+    keywords: [
+      `${chapterVerses?.name} Versículo ${searchParams.versiculo}`,
+      `${chapterVerses?.name}`,
+      `Capítulo ${chapterVerses?.name}`,
+      `Versículo ${searchParams.versiculo}`,
+      "Bíblia",
+      "Escrituras",
+      "Antigo Testamento",
+      "Evangelho",
+      "Salmos",
+      "Profetas",
+      "Apóstolos",
+      `${chapterVerses?.testament} Testamento`,
+      `${chapterVerses?.name} Capítulo ${capitulo}`,
+      `www.bibliasagrada.tech`,
+      "bibliasagrada.tech",
+      "Biblia Sagrada",
+      "Biblia Online",
+    ],
   };
 }
 

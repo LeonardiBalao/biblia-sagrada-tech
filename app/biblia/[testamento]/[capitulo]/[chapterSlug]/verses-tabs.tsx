@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import LoadingButton from "@/components/structure/loading-button";
@@ -13,7 +14,8 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Verse } from "@prisma/client";
 import { ArrowLeft, ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface VersesTabsProps {
   verses: Verse[];
@@ -21,6 +23,22 @@ interface VersesTabsProps {
 
 export function VersesTabs({ verses }: VersesTabsProps) {
   const [tabValue, setTabValue] = useState("1");
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const updateUrlParams = (value: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set("versiculo", tabValue);
+      router.push(`?${params.toString()}`);
+    };
+    updateUrlParams(tabValue);
+  }, [tabValue]);
+
+  useEffect(() => {
+    const paramValue = searchParams.get("versiculo");
+    if (paramValue) setTabValue(paramValue);
+  }, []);
 
   return (
     <Tabs value={tabValue} className="mt-4">
