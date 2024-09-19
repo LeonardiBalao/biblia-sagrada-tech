@@ -17,7 +17,7 @@ export const Cta = () => {
         <div className="flex-shrink-0 w-full text-center lg:w-auto">
           <LoadingButton
             href="/auth/login"
-            className="bg-white text-black hover:bg-gray-200"
+            className="bg-white text-black hover:bg-gray-200 mx-auto"
             size={"lg"}
             loadingText="Carregando"
             text="Comece Sua Jornada!"

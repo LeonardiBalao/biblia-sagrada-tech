@@ -26,7 +26,7 @@ export const Benefits = (props: Readonly<BenefitsProps>) => {
           props.imgPos === "right" ? "lg:order-1" : ""
         }`}
       >
-        <div className="w-[350px]">
+        <div className="w-[450px]">
           <AspectRatio ratio={9 / 16}>
             <Image
               src={data.image}
