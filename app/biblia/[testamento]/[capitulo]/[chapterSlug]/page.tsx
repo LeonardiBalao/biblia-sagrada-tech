@@ -37,12 +37,32 @@ export async function generateMetadata({
     where: { slug: chapterSlug },
     include: { Verses: true },
   });
+  if (!chapterVerses) {
+    console.log("deu merda");
+    return {
+      title: `BIBLIA SAGRADA TECH`,
+      description: `O Melhor site de biblia online portuguesa do mundo`,
+      keywords: [
+        "Bíblia",
+        "Escrituras",
+        "Antigo Testamento",
+        "Evangelho",
+        "Salmos",
+        "Profetas",
+        "Apóstolos",
+        `www.bibliasagrada.tech`,
+        "bibliasagrada.tech",
+        "Biblia Sagrada",
+        "Biblia Online",
+      ],
+    };
+  }
   const verse = chapterVerses?.Verses.filter(
     (v) => v.number === parseInt(searchParams.versiculo)
   );
   return {
     title: `${chapterVerses?.testament} TESTAMENTO - ${chapterVerses?.name}`,
-    description: verse ? verse[0].content : "",
+    description: `${verse[0].content}`,
     keywords: [
       `${chapterVerses?.name} Versículo ${searchParams.versiculo}`,
       `${chapterVerses?.name}`,
