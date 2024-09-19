@@ -37,19 +37,18 @@ export async function generateMetadata({
     where: { slug: chapterSlug },
   });
 
-  const verse = await prisma.verse.findMany({
+  const verse = await prisma.verse.findFirst({
     where: {
-      id: chapter!.id,
+      number: parseInt(searchParams.versiculo),
     },
   });
 
   return {
     title: `${chapter?.testament} TESTAMENTO - ${chapter?.name}`,
-    description: `${verse[0].content}`,
+    description: `${verse!.content}`,
     keywords: [
       `${chapter?.name} Versículo ${searchParams.versiculo}`,
       `${chapter?.name}`,
-      `${verse.filter((v) => v.number === parseInt(searchParams.versiculo))}`,
       `Capítulo ${chapter?.name}`,
       `Versículo ${searchParams.versiculo}`,
       "Bíblia",
@@ -66,16 +65,12 @@ export async function generateMetadata({
       "Biblia Sagrada",
       "Biblia Online",
     ],
-    viewport: "width=device-width, initial-scale=1.0",
     robots: {
       index: true,
       follow: true,
       googleBot: {
         index: true,
         follow: true,
-        "max-video-preview": -1,
-        "max-image-preview": "large",
-        "max-snippet": -1,
       },
     },
     authors: [
@@ -84,16 +79,6 @@ export async function generateMetadata({
         url: "https://www.bibliasagrada.tech",
       },
     ],
-    openGraph: {
-      images: [
-        {
-          url: "/img/pray.jpg",
-          width: 800,
-          height: 600,
-          alt: "Biblia Sagrada Tech",
-        },
-      ],
-    },
   };
 }
 
