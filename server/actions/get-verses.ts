@@ -2,13 +2,14 @@
 
 import prisma from "../db";
 
-export const getVerses = async (verseIds: number[]) => {
+export const getVerses = async (verseNumbers: number[], chapterId: number) => {
   try {
     const verses = (
       await prisma.verse.findMany({
         where: {
-          id: {
-            in: verseIds,
+          chapterId,
+          number: {
+            in: verseNumbers,
           },
         },
       })

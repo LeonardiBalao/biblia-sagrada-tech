@@ -50,7 +50,7 @@ export function Dicas({ chapterId, verseIds }: DicasProps) {
     const getInfo = async () => {
       const chapterName = await getChapterName(chapterId);
       setChapter(chapterName.success!);
-      const verses = await getVerses(verseIds);
+      const verses = await getVerses(verseIds, chapterId);
       setVerses(verses.success!);
     };
     getInfo();

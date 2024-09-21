@@ -171,7 +171,7 @@ export default function Quizz({ quizz, user }: QuizzProps) {
           <CardDescription>Dicas</CardDescription>
         </CardHeader>
         <CardContent className="w-[320px] mx-auto">
-          <Dicas chapterId={quizz.chapterId} verseIds={quizz.verseIds} />
+          <Dicas chapterId={quizz.chapterId} verseIds={quizz.verseNumbers} />
         </CardContent>
       </Card>
     </div>

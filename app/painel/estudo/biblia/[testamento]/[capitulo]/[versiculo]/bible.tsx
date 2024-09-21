@@ -24,7 +24,7 @@ interface BibleProps {
 }
 
 export default function Bible({ progress, user }: BibleProps) {
-  const timer = 9;
+  const timer = 7;
   const [seconds, setSeconds] = useState(timer);
   const [loading, setLoading] = useState(false);
   const [reading, setReading] = useState(true);

@@ -244,7 +244,7 @@ model Quizz {
   question      String
   testament     TESTAMENT
   chapterId     Int
-  verseIds      Int[]
+  verseNumbers  Int[]
   correctAnswer String
   options       String[]
   difficulty    DIFFICULTY
