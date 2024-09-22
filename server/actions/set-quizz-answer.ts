@@ -38,11 +38,15 @@ export const setQuizzAnswer = async (
       return { error: "Resposta incorreta" };
     }
 
-    await prisma.points.update({
+    await prisma.points.upsert({
       where: {
         userId: user.id,
       },
-      data: {
+      create: {
+        userId: user.id,
+        points,
+      },
+      update: {
         points: {
           increment: points,
         },
