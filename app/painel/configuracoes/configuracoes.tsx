@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import ResetProgress from "./reset-progress";
 
 interface ConfiguracoesProps {
   user: ExtendUser;
@@ -54,7 +55,7 @@ export function Configuracoes({ user }: ConfiguracoesProps) {
         <CardDescription>
           {user.firstLogin
             ? "Leia nossoas políticas e concorde com as políticas para continuar."
-            : "Altere suas configurações"}
+            : "Suas configurações"}
         </CardDescription>
         <Separator />
       </CardHeader>
@@ -107,6 +108,7 @@ export function Configuracoes({ user }: ConfiguracoesProps) {
                 : setNotification("Yes");
             }}
           />
+
           <div className="grid gap-1.5 leading-none">
             <label
               htmlFor="notificacoes"
@@ -120,11 +122,12 @@ export function Configuracoes({ user }: ConfiguracoesProps) {
           As notificações são essenciais para que nosso aplicativo acompanhe e
           apoie seu progresso continuamente.
         </p>
-      </CardContent>
-      <CardFooter>
         <Button className="w-full" onClick={handleSubmit}>
           Salvar
         </Button>
+      </CardContent>
+      <CardFooter>
+        {!user.firstLogin && <ResetProgress user={user} />}
       </CardFooter>
     </Card>
   );

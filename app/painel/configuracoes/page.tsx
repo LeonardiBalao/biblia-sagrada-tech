@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import PainelAside from "../painel-aside";
 import PainelNavbar from "../painel-navbar";
 import { Configuracoes } from "./configuracoes";
+import ResetProgress from "./reset-progress";
 
 export default async function Painel() {
   const session = await auth();
