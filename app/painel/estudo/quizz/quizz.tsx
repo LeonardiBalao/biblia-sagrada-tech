@@ -89,31 +89,35 @@ export default function Quizz({ quizz, user }: QuizzProps) {
                     setAnswer(value);
                   }}
                 >
-                  {quizz.options.map((o, i) => (
-                    <div key={i} className={`flex items-center space-x-2`}>
-                      <RadioGroupItem value={o} id={o} />
-                      <Label
-                        htmlFor={o}
-                        className={`${
-                          o === answer && !isAnswered
-                            ? "font-bold animate-pulse text-blue-800"
-                            : ""
-                        } ${
-                          isAnswered && o === quizz.correctAnswer
-                            ? "font-bold animate-bounce bg-green-600 text-white p-1 rounded-lg"
-                            : ""
-                        } ${
-                          o === answer &&
-                          isAnswered &&
-                          o !== quizz.correctAnswer
-                            ? "font-bold bg-red-600 p-1 rounded-lg text-white"
-                            : ""
-                        } cursor-pointer`}
-                      >
-                        {o}
-                      </Label>
-                    </div>
-                  ))}
+                  {quizz.options
+                    .sort((a, b) =>
+                      a.toLowerCase().localeCompare(b.toLowerCase())
+                    )
+                    .map((o, i) => (
+                      <div key={i} className={`flex items-center space-x-2`}>
+                        <RadioGroupItem value={o} id={o} />
+                        <Label
+                          htmlFor={o}
+                          className={`${
+                            o === answer && !isAnswered
+                              ? "font-bold animate-pulse text-blue-800"
+                              : ""
+                          } ${
+                            isAnswered && o === quizz.correctAnswer
+                              ? "font-bold animate-bounce bg-green-600 text-white p-1 rounded-lg"
+                              : ""
+                          } ${
+                            o === answer &&
+                            isAnswered &&
+                            o !== quizz.correctAnswer
+                              ? "font-bold bg-red-600 p-1 rounded-lg text-white"
+                              : ""
+                          } cursor-pointer`}
+                        >
+                          {o}
+                        </Label>
+                      </div>
+                    ))}
                 </RadioGroup>
               </div>
               <Badge
